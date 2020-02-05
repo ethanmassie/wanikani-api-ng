@@ -17,7 +17,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "wanikani-api-ng": [
+        "dist/wanikani-api-ng"
+      ],
+      "wanikani-api-ng/*": [
+        "dist/wanikani-api-ng/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
