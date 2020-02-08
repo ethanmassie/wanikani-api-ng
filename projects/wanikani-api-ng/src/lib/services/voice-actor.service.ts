@@ -7,7 +7,7 @@ import { VoiceActor } from '../models/voice-actor/voice-actor.model';
 @Injectable()
 export class VoiceActorService {
 
-  public baseUrl = 'https://api.wanikani.com/v2/voice-actor'
+  public baseUrl = 'https://api.wanikani.com/v2/voice-actors'
   public apiRevision = '20170710'
 
   private getHeaders = new HttpHeaders({
