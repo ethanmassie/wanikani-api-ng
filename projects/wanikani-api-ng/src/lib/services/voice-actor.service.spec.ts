@@ -28,11 +28,12 @@ describe('VoiceActorService', () => {
 
       const tokenService = TestBed.get(TokenService);
       tokenService.setApiToken('mock token');
+      
+      voiceActorService = TestBed.get(VoiceActorService);
     }
   );
 
   it('should be created', () => {
-    voiceActorService = TestBed.get(VoiceActorService);
     expect(voiceActorService).toBeTruthy();
   });
 });
