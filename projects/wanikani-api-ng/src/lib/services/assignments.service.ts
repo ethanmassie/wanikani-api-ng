@@ -7,8 +7,8 @@ import { Assignment } from '../models/assignment/assignment.model';
 @Injectable()
 export class AssignmentsService {
 
-  private baseUrl = 'https://api.wanikani.com/v2/assignments'
-  private apiRevision = '20170710'
+  public baseUrl = 'https://api.wanikani.com/v2/assignments'
+  public apiRevision = '20170710'
 
   private getHeaders = new HttpHeaders({
     'Wanikani-Revision': this.apiRevision

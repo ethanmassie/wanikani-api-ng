@@ -24,11 +24,9 @@ export class TokenService {
    */
   public addAuthHeader(req: HttpRequest<any>): HttpRequest<any> {
     if(this.hasToken()) {
-      let authHeaders = req.headers;
-      authHeaders.append('Authorization', `Bearer ${this.getToken()}`);
+      let authHeaders = req.headers.append('Authorization', `Bearer ${this.getToken()}`);
       return req.clone({headers: authHeaders});
     }
-
     return req;
   }
 
