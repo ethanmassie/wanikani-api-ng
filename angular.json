@@ -14,13 +14,13 @@
           "options": {
             "tsConfig": "projects/wanikani-api-ng/tsconfig.lib.json",
             "project": "projects/wanikani-api-ng/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/wanikani-api-ng/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
@@ -42,6 +42,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "wanikani-api-ng"
+    }
+  },
+  "defaultProject": "wanikani-api-ng",
+  "cli": {
+    "analytics": "e12acc78-d7bf-4470-af58-a5f6c91d7328"
+  }
 }
