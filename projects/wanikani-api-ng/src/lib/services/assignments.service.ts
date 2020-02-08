@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AssignmentCollection } from '../models/assignment/assignment-collection.model';
 import { Assignment } from '../models/assignment/assignment.model';
@@ -8,6 +8,16 @@ import { Assignment } from '../models/assignment/assignment.model';
 export class AssignmentsService {
 
   private baseUrl = 'https://api.wanikani.com/v2/assignments'
+  private apiRevision = '20170710'
+
+  private getHeaders = new HttpHeaders({
+    'Wanikani-Revision': this.apiRevision
+  });
+
+  private putHeaders = new HttpHeaders({
+    'Wanikani-Revision': this.apiRevision,
+    'Content-Type': 'application/json; charset=utf-8'
+  });
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +28,8 @@ export class AssignmentsService {
    */
   public getAllAssignments(page?: string): Observable<AssignmentCollection> {
     const url = !!page ? page : this.baseUrl;
-    return this.http.get<AssignmentCollection>(`${url}`);
+    return this.http.get<AssignmentCollection>(`${url}`,
+      { headers: this.getHeaders });
   }
 
   /**
@@ -27,7 +38,8 @@ export class AssignmentsService {
    * Return the assignment as an observable
    */
   public getAssignment(assignmentId: number): Observable<Assignment> {
-    return this.http.get<Assignment>(`${this.baseUrl}/${assignmentId}`);
+    return this.http.get<Assignment>(`${this.baseUrl}/${assignmentId}`,
+      { headers: this.getHeaders });
   }
 
   /**
@@ -36,7 +48,9 @@ export class AssignmentsService {
    * Return the started assignment as an observable
    */
   public startAssignment(assignmentId: number): Observable<Assignment> {
-    return this.http.get<Assignment>(`${this.baseUrl}/${assignmentId}/start`);
+    return this.http.put<Assignment>(`${this.baseUrl}/${assignmentId}/start`,
+      null,
+      { headers: this.putHeaders });
   }
 
 }
