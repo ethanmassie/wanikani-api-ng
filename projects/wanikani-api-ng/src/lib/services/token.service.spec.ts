@@ -3,10 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { TokenService } from './token.service';
 
 describe('TokenService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let tokenService: TokenService;
+
+  beforeEach(() => TestBed.configureTestingModule({
+    providers: [TokenService]
+  }));
 
   it('should be created', () => {
-    const service: TokenService = TestBed.get(TokenService);
-    expect(service).toBeTruthy();
+    tokenService = TestBed.get(TokenService);
+    expect(tokenService).toBeTruthy();
   });
 });
