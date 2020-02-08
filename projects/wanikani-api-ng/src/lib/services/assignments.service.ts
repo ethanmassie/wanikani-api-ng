@@ -29,7 +29,8 @@ export class AssignmentsService {
   public getAllAssignments(page?: string): Observable<AssignmentCollection> {
     const url = !!page ? page : this.baseUrl;
     return this.http.get<AssignmentCollection>(`${url}`,
-      { headers: this.getHeaders });
+      { headers: this.getHeaders }
+    );
   }
 
   /**
@@ -39,7 +40,8 @@ export class AssignmentsService {
    */
   public getAssignment(assignmentId: number): Observable<Assignment> {
     return this.http.get<Assignment>(`${this.baseUrl}/${assignmentId}`,
-      { headers: this.getHeaders });
+      { headers: this.getHeaders }
+    );
   }
 
   /**
@@ -50,7 +52,8 @@ export class AssignmentsService {
   public startAssignment(assignmentId: number): Observable<Assignment> {
     return this.http.put<Assignment>(`${this.baseUrl}/${assignmentId}/start`,
       null,
-      { headers: this.putHeaders });
+      { headers: this.putHeaders }
+    );
   }
 
 }
