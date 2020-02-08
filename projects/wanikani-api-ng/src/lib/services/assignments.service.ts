@@ -35,22 +35,22 @@ export class AssignmentsService {
 
   /**
    * Get a specific assignment by id
-   * @param assignmentId id of assignment to retrieve
+   * @param id id of assignment to retrieve
    * Return the assignment as an observable
    */
-  public getAssignment(assignmentId: number): Observable<Assignment> {
-    return this.http.get<Assignment>(`${this.baseUrl}/${assignmentId}`,
+  public getAssignment(id: number): Observable<Assignment> {
+    return this.http.get<Assignment>(`${this.baseUrl}/${id}`,
       { headers: this.getHeaders }
     );
   }
 
   /**
    * Start a specific assignment by id
-   * @param assignmentId 
+   * @param id 
    * Return the started assignment as an observable
    */
-  public startAssignment(assignmentId: number): Observable<Assignment> {
-    return this.http.put<Assignment>(`${this.baseUrl}/${assignmentId}/start`,
+  public startAssignment(id: number): Observable<Assignment> {
+    return this.http.put<Assignment>(`${this.baseUrl}/${id}/start`,
       { started_at: new Date() },
       { headers: this.putHeaders }
     );
