@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AssignmentsService } from './services/assignments.service';
+import { LevelProgressionsService } from './services/level-progressions.service';
 
 
 
@@ -12,7 +13,8 @@ import { AssignmentsService } from './services/assignments.service';
     HttpClientModule
   ],
   providers: [
-    AssignmentsService
+    AssignmentsService,
+    LevelProgressionsService,
   ]
 })
 export class WanikaniApiNgModule { }
