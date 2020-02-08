@@ -12,11 +12,15 @@ export * from './lib/enums/subject-type.enum';
 
 // Models
 export * from './lib/models/pages.model';
-// Assignment
+// Assignments
 export * from './lib/models/assignment/assignment-collection.model';
 export * from './lib/models/assignment/assignment.model';
+// Level Progressions
+export * from './lib/models/level-progression/level-progression-collection.model';
+export * from './lib/models/level-progression/level-progression.model';
 
 // Services
 export * from './lib/services/assignments.service';
+export * from './lib/services/level-progressions.service';
 export * from './lib/services/token-interceptor.service';
 export * from './lib/services/token.service';
