@@ -51,9 +51,7 @@ export class AssignmentsService {
    */
   public startAssignment(assignmentId: number): Observable<Assignment> {
     return this.http.put<Assignment>(`${this.baseUrl}/${assignmentId}/start`,
-      {
-        started_at: new Date()
-      },
+      { started_at: new Date() },
       { headers: this.putHeaders }
     );
   }
