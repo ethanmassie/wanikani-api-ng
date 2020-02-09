@@ -7,8 +7,8 @@ import { Preferences } from '../models/preferences.model';
 @Injectable()
 export class UserService {
 
-  public baseUrl = 'https://api.wanikani.com/v2/user'
-  public apiRevision = '20170710'
+  public baseUrl = 'https://api.wanikani.com/v2/user';
+  public apiRevision = '20170710';
 
   private getHeaders = new HttpHeaders({
     'Wanikani-Revision': this.apiRevision
@@ -37,12 +37,13 @@ export class UserService {
    */
   public updateUser(preferences: Preferences): Observable<User> {
     return this.http.put<User>(`${this.baseUrl}`, 
-    {
-      "user" : {
-        "preferences" : preferences
-      }
-    }, 
-    { headers: this.putHeaders })
+      {
+        "user" : {
+          "preferences" : preferences
+        }
+      }, 
+      { headers: this.putHeaders }
+    );
   }
 
 
