@@ -23,10 +23,14 @@ export * from './lib/models/level-progression/level-progression-collection.model
 export * from './lib/models/level-progression/level-progression.model';
 // User
 export * from './lib/models/user.model';
+// Voice Actor
+export * from './lib/models/voice-actor/voice-actor-collection.model';
+export * from './lib/models/voice-actor/voice-actor.model';
 
 // Services
 export * from './lib/services/assignments.service';
 export * from './lib/services/level-progressions.service';
 export * from './lib/services/user.service';
 export * from './lib/services/token-interceptor.service';
+export * from './lib/services/voice-actor.service';
 export * from './lib/services/token.service';

@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AssignmentsService } from './services/assignments.service';
 import { LevelProgressionsService } from './services/level-progressions.service';
 import { UserService } from './services/user.service';
+import { VoiceActorService } from './services/voice-actor.service';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { UserService } from './services/user.service';
     AssignmentsService,
     LevelProgressionsService,
     UserService,
+    VoiceActorService,
   ]
 })
 export class WanikaniApiNgModule { }
