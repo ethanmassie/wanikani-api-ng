@@ -1,4 +1,4 @@
-export enum SrsStage {
+export enum SrsStageType {
   INITIATE,
   APPRENTICE_I,
   APPRENTICE_II,

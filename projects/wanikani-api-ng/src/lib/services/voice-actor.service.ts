@@ -7,16 +7,11 @@ import { VoiceActor } from '../models/voice-actor/voice-actor.model';
 @Injectable()
 export class VoiceActorService {
 
-  public baseUrl = 'https://api.wanikani.com/v2/voice-actors'
+  public baseUrl = 'https://api.wanikani.com/v2/voice_actors'
   public apiRevision = '20170710'
 
   private getHeaders = new HttpHeaders({
     'Wanikani-Revision': this.apiRevision
-  });
-
-  private putHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
   });
 
   constructor(private http: HttpClient) { }
