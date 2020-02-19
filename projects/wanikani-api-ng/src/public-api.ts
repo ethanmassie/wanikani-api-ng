@@ -21,6 +21,9 @@ export * from './lib/models/assignment/assignment.model';
 // Level Progressions
 export * from './lib/models/level-progression/level-progression-collection.model';
 export * from './lib/models/level-progression/level-progression.model';
+// Resets
+export * from './lib/models/reset/reset-collection.model';
+export * from './lib/models/reset/reset.model';
 // User
 export * from './lib/models/user.model';
 // Voice Actor
@@ -33,6 +36,7 @@ export * from './lib/models/srs-stage/srs-stage.model';
 // Services
 export * from './lib/services/assignments.service';
 export * from './lib/services/level-progressions.service';
+export * from './lib/services/resets.service';
 export * from './lib/services/srs-stage.service';
 export * from './lib/services/user.service';
 export * from './lib/services/voice-actor.service';
