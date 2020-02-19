@@ -1,11 +1,7 @@
-import { Subscription } from './subscription.model'
-import { Preferences } from './preferences.model'
+import { Subscription } from '../subscription.model'
+import { Preferences } from '../preferences.model'
 
-export interface User {
-  object:                         'user';
-  url:                            string;
-  data_updated_at:                Date;
-  data: {
+export interface UserData {
     id:                           string;
     username:                     string;
     level:                        number;
@@ -14,5 +10,4 @@ export interface User {
     current_vacation_started_at:  Date;
     subscription:                 Subscription;
     preferences:                  Preferences;
-  }
 }
