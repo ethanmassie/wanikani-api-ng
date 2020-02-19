@@ -30,6 +30,14 @@ export * from './lib/models/level-progression/level-progression-data.model';
 export * from './lib/models/reset/reset-collection.model';
 export * from './lib/models/reset/reset.model';
 export * from './lib/models/reset/reset-data.model';
+// Reviews
+export * from './lib/models/review/create-review-request.model';
+export * from './lib/models/review/create-review-response.model';
+export * from './lib/models/review/review-collection.model';
+export * from './lib/models/review/review-data.model';
+export * from './lib/models/review/review-statistic-data.model';
+export * from './lib/models/review/review-statistic.model';
+export * from './lib/models/review/review.model';
 // User
 export * from './lib/models/user/user.model';
 export * from './lib/models/user/user-data.model';
@@ -48,6 +56,7 @@ export * from './lib/models/summary/summary-data.model';
 export * from './lib/services/assignments.service';
 export * from './lib/services/level-progressions.service';
 export * from './lib/services/resets.service';
+export * from './lib/services/reviews.service';
 export * from './lib/services/srs-stage.service';
 export * from './lib/services/summary.service';
 export * from './lib/services/user.service';
