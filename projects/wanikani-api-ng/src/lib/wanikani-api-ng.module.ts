@@ -4,11 +4,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AssignmentsService } from './services/assignments.service';
 import { LevelProgressionsService } from './services/level-progressions.service';
 import { ResetsService } from './services/resets.service';
+import { ReviewsService } from './services/reviews.service';
+import { ReviewStatisticsService } from './services/review-statistics.service';
 import { SrsStageService } from './services/srs-stage.service';
 import { SummaryService } from './services/summary.service';
 import { UserService } from './services/user.service';
 import { VoiceActorService } from './services/voice-actor.service';
-import { ReviewsService } from './services/reviews.service';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { ReviewsService } from './services/reviews.service';
     LevelProgressionsService,
     ResetsService,
     ReviewsService,
+    ReviewStatisticsService,
     SrsStageService,
     SummaryService,
     UserService,
