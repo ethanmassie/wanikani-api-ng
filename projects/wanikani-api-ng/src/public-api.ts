@@ -47,6 +47,10 @@ export * from './lib/models/user/user-data.model';
 export * from './lib/models/voice-actor/voice-actor-collection.model';
 export * from './lib/models/voice-actor/voice-actor.model';
 export * from './lib/models/voice-actor/voice-actor-data.model';
+// Study Materials
+export * from './lib/models/study-material/study-material-collection.model';
+export * from './lib/models/study-material/study-material-data.model';
+export * from './lib/models/study-material/study-material.model';
 //SRS Stage
 export * from './lib/models/srs-stage/srs-stage-collection.model';
 export * from './lib/models/srs-stage/srs-stage.model';
@@ -60,6 +64,7 @@ export * from './lib/services/level-progressions.service';
 export * from './lib/services/resets.service';
 export * from './lib/services/reviews.service';
 export * from './lib/services/review-statistics.service';
+export * from './lib/services/study-materials.service';
 export * from './lib/services/srs-stage.service';
 export * from './lib/services/summary.service';
 export * from './lib/services/user.service';
