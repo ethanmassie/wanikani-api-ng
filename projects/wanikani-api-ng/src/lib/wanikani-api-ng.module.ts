@@ -10,6 +10,7 @@ import { SrsStageService } from './services/srs-stage.service';
 import { SummaryService } from './services/summary.service';
 import { UserService } from './services/user.service';
 import { VoiceActorService } from './services/voice-actor.service';
+import { StudyMaterialsService } from './services/study-materials.service';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { VoiceActorService } from './services/voice-actor.service';
     ResetsService,
     ReviewsService,
     ReviewStatisticsService,
+    StudyMaterialsService,
     SrsStageService,
     SummaryService,
     UserService,
