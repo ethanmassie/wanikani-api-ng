@@ -44,6 +44,8 @@ export class ReviewsService {
    * @param request CreateReviewRequest with assignment to create
    */
   public createReview(request: CreateReviewRequest): Observable<CreateReviewResponse> {
-    return this.http.post<CreateReviewResponse>(`${this.baseUrl}`, request, {headers: this.postHeaders});
+    return this.http.post<CreateReviewResponse>(`${this.baseUrl}`, 
+      {'review': request}, 
+      {headers: this.postHeaders});
   }
 }
