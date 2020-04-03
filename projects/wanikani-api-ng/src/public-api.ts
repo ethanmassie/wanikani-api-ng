@@ -94,3 +94,4 @@ export * from './lib/services/user.service';
 export * from './lib/services/voice-actor.service';
 export * from './lib/services/token-interceptor.service';
 export * from './lib/services/token.service';
+export * from './lib/services/subject.service';

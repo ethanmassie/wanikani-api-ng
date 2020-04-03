@@ -15,7 +15,12 @@ export class LevelProgressionsService {
   });
 
   constructor(private http: HttpClient) { }
-
+    /**
+   * // TODO: Add other level progression specific query parameters (ids, updated_after)
+   * Get a collection of all level progressions
+   * @param page Optional page to get assignments from
+   * Return the level progression collection as an observable
+   */
   public getAllLevelProgressions(page?: string): Observable<LevelProgressionCollection> {
     const url = !!page ? page : this.baseUrl;
     return this.http.get<LevelProgressionCollection>(`${url}`, {headers: this.getHeaders});
