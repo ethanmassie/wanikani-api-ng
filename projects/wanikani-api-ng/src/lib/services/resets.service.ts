@@ -17,6 +17,7 @@ export class ResetsService {
   constructor(private http: HttpClient) { }
 
   /**
+   * // TODO: Add other reset specific query parameters (ids, updated_after)
    * Return the collection of all resets
    * @param page Optional page for getting the next page from a paginated response
    */

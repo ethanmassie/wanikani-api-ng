@@ -12,6 +12,10 @@ export * from './lib/enums/subject-type.enum';
 export * from './lib/enums/gender.enum';
 export * from './lib/enums/subscription-type.enum';
 export * from './lib/enums/presentation-order.enum';
+export * from './lib/enums/audio-type.enum';
+export * from './lib/enums/image-type.enum';
+export * from './lib/enums/kanji-reading-type.enum';
+export * from './lib/enums/meaning-type.enum';
 
 // Models
 export * from './lib/models/pages.model';
@@ -36,7 +40,7 @@ export * from './lib/models/review/create-review-response.model';
 export * from './lib/models/review/review-collection.model';
 export * from './lib/models/review/review-data.model';
 export * from './lib/models/review/review.model';
-//Review Statistics
+// Review Statistics
 export * from './lib/models/review-statistic/review-collection.model';
 export * from './lib/models/review-statistic/review-statistic-data.model';
 export * from './lib/models/review-statistic/review-statistic.model';
@@ -47,16 +51,35 @@ export * from './lib/models/user/user-data.model';
 export * from './lib/models/voice-actor/voice-actor-collection.model';
 export * from './lib/models/voice-actor/voice-actor.model';
 export * from './lib/models/voice-actor/voice-actor-data.model';
+// SRS Stage
+export * from './lib/models/srs-stage/srs-stage-collection.model';
+export * from './lib/models/srs-stage/srs-stage.model';
 // Study Materials
 export * from './lib/models/study-material/study-material-collection.model';
 export * from './lib/models/study-material/study-material-data.model';
 export * from './lib/models/study-material/study-material.model';
-//SRS Stage
-export * from './lib/models/srs-stage/srs-stage-collection.model';
-export * from './lib/models/srs-stage/srs-stage.model';
-//Summary
+// Subjects
+export * from './lib/models/subject/subject-collection.model';
+export * from './lib/models/subject/subject.model';
+export * from './lib/models/subject/subject-data.model';
+export * from './lib/models/subject/character-image.model';
+export * from './lib/models/subject/context-sentence.model';
+export * from './lib/models/subject/kanji-subject-data.model';
+export * from './lib/models/subject/radical-subject-data.model';
+export * from './lib/models/subject/vocabulary-subject-data.model';
+// Summary
 export * from './lib/models/summary/summary.model';
 export * from './lib/models/summary/summary-data.model';
+
+// Meaning
+export * from './lib/models/meaning/auxiliary-meaning.model';
+export * from './lib/models/meaning/meaning.model';
+// Pronunciation Audio
+export * from './lib/models/pronunciation-audio/pronunciation-audio-metadata.model';
+export * from './lib/models/pronunciation-audio/pronunciation-audio.model';
+// Reading
+export * from './lib/models/reading/kanji-reading.model';
+export * from './lib/models/reading/reading.model';
 
 // Services
 export * from './lib/services/assignments.service';
@@ -71,3 +94,4 @@ export * from './lib/services/user.service';
 export * from './lib/services/voice-actor.service';
 export * from './lib/services/token-interceptor.service';
 export * from './lib/services/token.service';
+export * from './lib/services/subject.service';

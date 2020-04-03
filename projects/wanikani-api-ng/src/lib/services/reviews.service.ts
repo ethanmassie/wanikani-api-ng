@@ -23,6 +23,7 @@ export class ReviewsService {
   constructor(private http: HttpClient) { }
 
   /**
+   * // TODO: Add other review specific query parameters (assignment_ids, ids, subject_ids, updated_after)
    * Get a collection of all reviews
    * @param page Optional next page from review response
    */
