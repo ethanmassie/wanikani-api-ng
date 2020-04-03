@@ -26,7 +26,12 @@ export class LevelProgressionsService {
     return this.http.get<LevelProgressionCollection>(`${url}`, {headers: this.getHeaders});
   }
 
-  public getLevelProgressions(id: number): Observable<LevelProgression> {
+  /**
+   * Get a specific level progression by id
+   * @param id id of level progression to retrieve
+   * Return the level progression as an observable
+   */
+  public getLevelProgression(id: number): Observable<LevelProgression> {
     return this.http.get<LevelProgression>(`${this.baseUrl}/${id}`, {headers: this.getHeaders});
   }
 }

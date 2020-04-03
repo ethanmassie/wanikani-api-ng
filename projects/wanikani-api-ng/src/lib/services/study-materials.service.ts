@@ -23,6 +23,7 @@ export class StudyMaterialsService {
   constructor(private http: HttpClient) { }
 
   /**
+   * // TODO: Add other study material specific query parameters (hidden, ids, subject_ids, subject_types, updated_after)
    * Get a collection of study materials
    * @param page Optional next page in paginated response
    */

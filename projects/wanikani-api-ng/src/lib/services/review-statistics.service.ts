@@ -16,6 +16,7 @@ export class ReviewStatisticsService {
   constructor(private http: HttpClient) { }
 
   /**
+   * // TODO: Add other review statistic specific query parameters (hidden, ids, percentages_greater_than, percentages_less_than, subject_ids, subject_types, updated_after)
    * Get a collection of all review statistics
    * @param page Optional next page from review statistic response
    */
