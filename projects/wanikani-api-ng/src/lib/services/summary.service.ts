@@ -20,8 +20,8 @@ export class SummaryService {
    * Get the user's summary report
    * Return the user's summary report
    */
-  public getSummary(page?: string): Observable<Summary> {
-    const url = !!page ? page : this.baseUrl;
+  public getSummary(): Observable<Summary> {
+    const url = this.baseUrl;
     return this.http.get<Summary>(`${url}`,
       { headers: this.getHeaders }
     );
