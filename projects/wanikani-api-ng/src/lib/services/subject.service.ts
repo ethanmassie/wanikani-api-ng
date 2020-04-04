@@ -7,7 +7,7 @@ import { Subject } from '../models/subject/subject.model';
 @Injectable()
 export class SubjectService {
 
-  public baseUrl = 'https://api.wanikani.com/v2/assignments'
+  public baseUrl = 'https://api.wanikani.com/v2/subjects'
   public apiRevision = '20170710'
 
   private getHeaders = new HttpHeaders({
