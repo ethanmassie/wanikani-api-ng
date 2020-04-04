@@ -1,7 +1,7 @@
 import { Meaning } from '../meaning/meaning.model';
 import { AuxiliaryMeaning } from '../meaning/auxiliary-meaning.model';
 
-export interface SubjectData {
+export interface WaniSubjectData {
     auxiliary:  AuxiliaryMeaning;
     characters?:  string;
     created_at:  Date;

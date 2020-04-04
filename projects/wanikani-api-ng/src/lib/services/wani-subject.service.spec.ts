@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SubjectService } from './subject.service';
+import { WaniSubjectService } from './wani-subject.service';
 import { TokenService } from './token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './token-interceptor.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('SubjectService', () => {
-  let subjectService: SubjectService
-;
+describe('WaniSubjectService', () => {
+  let subjectService: WaniSubjectService;
 
   beforeEach(
     () => {
@@ -23,7 +22,7 @@ describe('SubjectService', () => {
             useClass: TokenInterceptorService,
             multi: true
           },
-          SubjectService
+          WaniSubjectService
         
         ]
       });
@@ -31,7 +30,7 @@ describe('SubjectService', () => {
       const tokenService = TestBed.get(TokenService);
       tokenService.setApiToken('mock token');
 
-      subjectService = TestBed.get(SubjectService
+      subjectService = TestBed.get(WaniSubjectService
       );
     }
   );
