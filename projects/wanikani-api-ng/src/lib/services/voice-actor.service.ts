@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { VoiceActorCollection } from '../models/voice-actor/voice-actor-collection.model';
 import { VoiceActor } from '../models/voice-actor/voice-actor.model';
+import { AllVoiceActorsParams } from '../models/voice-actor/all-voice-actors-params.model';
+import { appendQueryToUrl } from '../util/query-param';
 
 @Injectable()
 export class VoiceActorService {
@@ -21,9 +23,9 @@ export class VoiceActorService {
    * @param page Optional page to get voice actors from
    * Return the voice actors collection as an observable
    */
-  public getAllVoiceActors(page?: string): Observable<VoiceActorCollection> {
-    const url = !!page ? page : this.baseUrl;
-    return this.http.get<VoiceActorCollection>(`${url}`,
+  public getAllVoiceActors(params?: AllVoiceActorsParams, page?: string): Observable<VoiceActorCollection> {
+    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
+    return this.http.get<VoiceActorCollection>(url,
       { headers: this.getHeaders }
     );
   }

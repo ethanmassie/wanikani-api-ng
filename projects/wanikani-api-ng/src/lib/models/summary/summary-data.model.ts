@@ -1,7 +1,7 @@
-import { SubjectList } from '../subject-list.model';
+import { WaniSubjectList } from '../wani-subject-list.model';
 
 export interface SummaryData {
-    lessons:            SubjectList[];
+    lessons:            WaniSubjectList[];
     next_reviews_at:    Date;
-    reviews:            SubjectList[];
+    reviews:            WaniSubjectList[];
 }

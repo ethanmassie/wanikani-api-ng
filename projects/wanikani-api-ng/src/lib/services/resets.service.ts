@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ResetCollection } from '../models/reset/reset-collection.model';
 import { Observable } from 'rxjs';
 import { Reset } from '../models/reset/reset.model';
+import { AllResetsParams } from '../models/reset/all-resets-params.model';
+import { appendQueryToUrl } from '../util/query-param';
 
 @Injectable()
 export class ResetsService {
@@ -21,9 +23,8 @@ export class ResetsService {
    * Return the collection of all resets
    * @param page Optional page for getting the next page from a paginated response
    */
-  public getAllResets(page?: string): Observable<ResetCollection> {
-    const url = !!page ? page: this.baseUrl;
-    
+  public getAllResets(params?: AllResetsParams, page?: string): Observable<ResetCollection> {
+    const url = !!page ? page: appendQueryToUrl(params, this.baseUrl);
     return this.http.get<ResetCollection>(url, { headers: this.getHeaders});
   }
 

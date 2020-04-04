@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReviewStatisticCollection } from '../models/review-statistic/review-collection.model';
 import { ReviewStatistic } from '../models/review-statistic/review-statistic.model';
+import { AllReviewStatisticsParams } from '../models/review-statistic/all-review-statistics-params.model';
+import { appendQueryToUrl } from '../util/query-param';
 
 @Injectable()
 export class ReviewStatisticsService {
@@ -16,12 +18,11 @@ export class ReviewStatisticsService {
   constructor(private http: HttpClient) { }
 
   /**
-   * // TODO: Add other review statistic specific query parameters (hidden, ids, percentages_greater_than, percentages_less_than, subject_ids, subject_types, updated_after)
    * Get a collection of all review statistics
    * @param page Optional next page from review statistic response
    */
-  public getAllReviewStatistics(page?: string): Observable<ReviewStatisticCollection> {
-    const url = !!page ? page : this.baseUrl;
+  public getAllReviewStatistics(params?: AllReviewStatisticsParams, page?: string): Observable<ReviewStatisticCollection> {
+    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
     return this.http.get<ReviewStatisticCollection>(`${url}`, { headers: this.getHeaders });
   }
 

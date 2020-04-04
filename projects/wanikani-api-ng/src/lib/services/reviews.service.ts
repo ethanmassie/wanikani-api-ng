@@ -5,6 +5,8 @@ import { ReviewCollection } from '../models/review/review-collection.model';
 import { Review } from '../models/review/review.model';
 import { CreateReviewRequest } from '../models/review/create-review-request.model';
 import { CreateReviewResponse } from '../models/review/create-review-response.model';
+import { appendQueryToUrl } from '../util/query-param';
+import { AllReviewsParams } from '../models/review/all-reviews-params.model';
 
 @Injectable()
 export class ReviewsService {
@@ -27,8 +29,8 @@ export class ReviewsService {
    * Get a collection of all reviews
    * @param page Optional next page from review response
    */
-  public getAllReviews(page?: string): Observable<ReviewCollection> {
-    const url = !!page ? page : this.baseUrl;
+  public getAllReviews(params?: AllReviewsParams, page?: string): Observable<ReviewCollection> {
+    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
     return this.http.get<ReviewCollection>(`${url}`, { headers: this.getHeaders });
   }
 

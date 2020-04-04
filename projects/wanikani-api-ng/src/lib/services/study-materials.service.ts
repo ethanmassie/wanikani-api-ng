@@ -4,6 +4,8 @@ import { StudyMaterialCollection } from '../models/study-material/study-material
 import { StudyMaterial } from '../models/study-material/study-material.model';
 import { StudyMaterialData } from '../models/study-material/study-material-data.model';
 import { Observable } from 'rxjs';
+import { AllStudyMaterialsParams } from '../models/study-material/all-study-materials-params.model';
+import { appendQueryToUrl } from '../util/query-param';
 
 @Injectable()
 export class StudyMaterialsService {
@@ -27,8 +29,8 @@ export class StudyMaterialsService {
    * Get a collection of study materials
    * @param page Optional next page in paginated response
    */
-  public getAllStudyMaterials(page?: string): Observable<StudyMaterialCollection> {
-    const url = !!page ? page: this.baseUrl;
+  public getAllStudyMaterials(params?: AllStudyMaterialsParams,page?: string): Observable<StudyMaterialCollection> {
+    const url = !!page ? page: appendQueryToUrl(params, this.baseUrl);
     return this.http.get<StudyMaterialCollection>(`${url}`, {headers: this.getHeaders});
   }
 

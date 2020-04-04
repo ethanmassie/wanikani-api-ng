@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { WaniSubjectCollection } from '../models/wani-subject/wani-subject-collection.model';
 import { WaniSubject } from '../models/wani-subject/wani-subject.model';
+import { appendQueryToUrl } from '../util/query-param';
+import { AllSubjectsParams } from '../models/wani-subject/all-subjects-params.model';
 
 @Injectable()
 export class WaniSubjectService {
@@ -27,9 +29,9 @@ export class WaniSubjectService {
    * @param page Optional page to get subjects from
    * Return the subject collection as an observable
    */
-  public getAllSubjects(page?: string): Observable<WaniSubjectCollection> {
-    const url = !!page ? page : this.baseUrl;
-    return this.http.get<WaniSubjectCollection>(`${url}`,
+  public getAllSubjects(params?: AllSubjectsParams, page?: string): Observable<WaniSubjectCollection> {
+    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
+    return this.http.get<WaniSubjectCollection>(url,
       { headers: this.getHeaders }
     );
   }
