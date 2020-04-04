@@ -20,8 +20,8 @@ export class SrsStageService {
    * Get a collection of all SRS Stages
    * Return the SRS Stage collection as an observable
    */
-  public getSrsStages(page?: string): Observable<SrsStageCollection> {
-    const url = !!page ? page : this.baseUrl;
+  public getSrsStages(): Observable<SrsStageCollection> {
+    const url = this.baseUrl;
     return this.http.get<SrsStageCollection>(`${url}`,
       { headers: this.getHeaders }
     );
