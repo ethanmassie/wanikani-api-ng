@@ -1,9 +1,9 @@
-import { SubjectType } from '../../enums/subject-type.enum';
+import { WaniSubjectType } from '../../enums/subject-type.enum';
 
 export interface ReviewStatisticData {
   created_at:             Date;
   subject_id:             number;
-  subject_type:           SubjectType;
+  subject_type:           WaniSubjectType;
   meaning_correct:        number;
   meaning_incorrect:      number;
   meaning_max_streak:     number;

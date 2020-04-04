@@ -1,11 +1,11 @@
-import { SubjectType } from '../../enums/subject-type.enum';
+import { WaniSubjectType } from '../../enums/subject-type.enum';
 import { SrsStageType } from '../../enums/srs-stage-type.enum';
 import { SrsStageName } from '../../enums/srs-stage-name.enum';
 
 export interface AssignmentData {
     created_at:     Date;
     subject_id:     number;
-    subject_type:   SubjectType;
+    subject_type:   WaniSubjectType;
     level?:         number;
     srs_stage:      SrsStageType;
     srs_stage_name: SrsStageName;
