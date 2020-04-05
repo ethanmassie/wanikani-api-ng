@@ -11,7 +11,7 @@ import { SummaryService } from './services/summary.service';
 import { UserService } from './services/user.service';
 import { VoiceActorService } from './services/voice-actor.service';
 import { StudyMaterialService } from './services/study-material.service';
-
+import { WaniSubjectService } from './services/wani-subject.service';
 
 @NgModule({
   declarations: [],
@@ -30,6 +30,7 @@ import { StudyMaterialService } from './services/study-material.service';
     SummaryService,
     UserService,
     VoiceActorService,
+    WaniSubjectService
   ]
 })
 export class WanikaniApiNgModule { }
