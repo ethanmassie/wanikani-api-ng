@@ -1,6 +1,15 @@
 {
   "name": "wanikani-api-ng",
-  "version": "1.0.1",
+  "version": "1.0.0",
+  "description": "Typescript models and Angular services for interfacing with the wanikani api",
+  "keywords": ["Angular", "Library", "WaniKani", "api", "japanese", "kanji"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ethanmassie/wanikani-api-ng.git",
+    "directory": "projects/wanikani-api-ng"
+  },
+  "homepage": "https://github.com/ethanmassie/wanikani-api-ng",
   "peerDependencies": {
     "@angular/common": "~9.1.0",
     "@angular/core": "~9.1.0"
