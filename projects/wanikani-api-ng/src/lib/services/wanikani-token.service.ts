@@ -5,7 +5,7 @@ import { HttpRequest } from '@angular/common/http';
 const tokenKey = 'burnt_tofu_token';
 
 @Injectable()
-export class TokenService { 
+export class WanikaniTokenService { 
 
   constructor() { }
 

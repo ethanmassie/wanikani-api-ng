@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TokenService } from './services/token.service';
+import { WanikaniTokenService } from './services/wanikani-token.service';
+import { WanikaniTokenInterceptorService } from './services/wanikani-token-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from '../public-api';
 
 @NgModule({
   imports: [
     CommonModule
   ],
   providers: [
-    TokenService,
+    WanikaniTokenService,
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptorService,
+      useClass: WanikaniTokenInterceptorService,
       multi: true
     }
   ]
 })
-export class TokenHandlerModule {}
+export class WanikaniTokenModule {}

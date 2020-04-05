@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { SrsStageService } from './srs-stage.service';
-import { TokenService } from './token.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TokenInterceptorService } from './token-interceptor.service';
+import { WanikaniTokenInterceptorService } from './wanikani-token-interceptor.service';
 
 describe('SrsStageService', () => {
   let srsStageService: SrsStageService;
@@ -16,17 +16,17 @@ describe('SrsStageService', () => {
           HttpClientTestingModule,
         ],
         providers: [
-          TokenService,
+          WanikaniTokenService,
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptorService,
+            useClass: WanikaniTokenInterceptorService,
             multi: true
           },
           SrsStageService
         ]
       });
 
-      const tokenService = TestBed.get(TokenService);
+      const tokenService = TestBed.get(WanikaniTokenService);
       tokenService.setApiToken('mock token');
       
       srsStageService = TestBed.get(SrsStageService);

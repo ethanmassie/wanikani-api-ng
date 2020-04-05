@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
 import { WaniSubjectService } from './wani-subject.service';
-import { TokenService } from './token.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from './token-interceptor.service';
+import { WanikaniTokenInterceptorService } from './wanikani-token-interceptor.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('WaniSubjectService', () => {
@@ -16,10 +16,10 @@ describe('WaniSubjectService', () => {
           HttpClientTestingModule,
         ],
         providers: [
-          TokenService,
+          WanikaniTokenService,
           {
             provide: HTTP_INTERCEPTORS,
-            useClass: TokenInterceptorService,
+            useClass: WanikaniTokenInterceptorService,
             multi: true
           },
           WaniSubjectService
@@ -27,7 +27,7 @@ describe('WaniSubjectService', () => {
         ]
       });
 
-      const tokenService = TestBed.get(TokenService);
+      const tokenService = TestBed.get(WanikaniTokenService);
       tokenService.setApiToken('mock token');
 
       subjectService = TestBed.get(WaniSubjectService

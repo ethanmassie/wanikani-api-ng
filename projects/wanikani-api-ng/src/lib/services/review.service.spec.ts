@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { ReviewService } from './review.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TokenService } from './token.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptorService } from '../../public-api';
+import { WanikaniTokenInterceptorService } from '../../public-api';
 
 describe('ReviewService', () => {
   let reviewsService: ReviewService;
@@ -15,16 +15,16 @@ describe('ReviewService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        TokenService,
+        WanikaniTokenService,
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptorService,
+          useClass: WanikaniTokenInterceptorService,
           multi: true
         },
         ReviewService,
       ]
     });
-    const tokenService = TestBed.get(TokenService);
+    const tokenService = TestBed.get(WanikaniTokenService);
     tokenService.setApiToken('mock token');
 
     reviewsService = TestBed.inject(ReviewService);

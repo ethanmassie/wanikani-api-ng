@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http'
 import { Observable } from 'rxjs';
-import { TokenService } from './token.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 
 @Injectable()
-export class TokenInterceptorService implements HttpInterceptor {
+export class WanikaniTokenInterceptorService implements HttpInterceptor {
 
-  constructor(private tokenService: TokenService) { }
+  constructor(private tokenService: WanikaniTokenService) { }
 
   /**
    * Attempt to apply auth headers before fulfilling a request

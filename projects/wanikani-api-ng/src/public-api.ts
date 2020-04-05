@@ -4,6 +4,7 @@
 
 // Modules
 export * from './lib/wanikani-api-ng.module';
+export * from './lib/wanikani-token.module';
 
 // Enums
 export * from './lib/enums/srs-stage-name.enum';
@@ -100,6 +101,6 @@ export * from './lib/services/srs-stage.service';
 export * from './lib/services/summary.service';
 export * from './lib/services/user.service';
 export * from './lib/services/voice-actor.service';
-export * from './lib/services/token-interceptor.service';
-export * from './lib/services/token.service';
+export * from './lib/services/wanikani-token-interceptor.service';
+export * from './lib/services/wanikani-token.service';
 export * from './lib/services/wani-subject.service';

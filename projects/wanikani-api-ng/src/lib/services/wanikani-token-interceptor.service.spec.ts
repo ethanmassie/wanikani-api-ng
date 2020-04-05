@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { TokenInterceptorService } from './token-interceptor.service';
-import { TokenService } from './token.service';
+import { WanikaniTokenInterceptorService } from './wanikani-token-interceptor.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AssignmentService } from './assignment.service';
 
-describe('TokenInterceptorService', () => {
-  let tokenService: TokenService;
+describe('WanikaniTokenInterceptorService', () => {
+  let tokenService: WanikaniTokenService;
   let assignmentsService: AssignmentService;
   let httpMock: HttpTestingController;
 
@@ -17,17 +17,17 @@ describe('TokenInterceptorService', () => {
         HttpClientTestingModule
       ],
       providers: [
-        TokenService,
+        WanikaniTokenService,
         {
           provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptorService,
+          useClass: WanikaniTokenInterceptorService,
           multi: true
         },
         AssignmentService
       ]
       });
 
-      tokenService = TestBed.get(TokenService);
+      tokenService = TestBed.get(WanikaniTokenService);
       assignmentsService = TestBed.get(AssignmentService);
       httpMock = TestBed.get(HttpTestingController);
 
