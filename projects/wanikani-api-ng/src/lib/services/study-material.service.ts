@@ -6,32 +6,23 @@ import { StudyMaterialData } from '../models/study-material/study-material-data.
 import { Observable } from 'rxjs';
 import { AllStudyMaterialsParams } from '../models/study-material/all-study-materials-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders, postHeaders, putHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/study_materials';
 
 @Injectable()
-export class StudyMaterialsService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/study_materials';
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
-
-  private postHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
+export class StudyMaterialService { 
 
   constructor(private http: HttpClient) { }
 
   /**
-   * // TODO: Add other study material specific query parameters (hidden, ids, subject_ids, subject_types, updated_after)
    * Get a collection of study materials
+   * @param params Optional query paramaters
    * @param page Optional next page in paginated response
    */
   public getAllStudyMaterials(params?: AllStudyMaterialsParams,page?: string): Observable<StudyMaterialCollection> {
-    const url = !!page ? page: appendQueryToUrl(params, this.baseUrl);
-    return this.http.get<StudyMaterialCollection>(`${url}`, {headers: this.getHeaders});
+    const url = !!page ? page: appendQueryToUrl(params, baseUrl);
+    return this.http.get<StudyMaterialCollection>(url, {headers: getHeaders});
   }
 
   /**
@@ -39,7 +30,7 @@ export class StudyMaterialsService {
    * @param id Id of study material to get
    */
   public getStudyMaterial(id: number): Observable<StudyMaterial> {
-    return this.http.get<StudyMaterial>(`${this.baseUrl}/${id}`);
+    return this.http.get<StudyMaterial>(`${baseUrl}/${id}`);
   }
 
   /**
@@ -47,9 +38,9 @@ export class StudyMaterialsService {
    * @param studyMaterialData Study material request data to be created
    */
   public createStudyMaterial(studyMaterialData: StudyMaterialData): Observable<StudyMaterial> {
-    return this.http.post<StudyMaterial>(`${this.baseUrl}`, 
+    return this.http.post<StudyMaterial>(baseUrl, 
       { 'study_material': studyMaterialData}, 
-      {headers: this.postHeaders});
+      {headers: postHeaders});
   }
 
   /**
@@ -58,9 +49,9 @@ export class StudyMaterialsService {
    * @param studyMaterialData Study material request data for update
    */
   public updateStudyMaterial(id: number, studyMaterialData: StudyMaterialData): Observable<StudyMaterial> {
-    return this.http.put<StudyMaterial>(`${this.baseUrl}/${id}`, 
+    return this.http.put<StudyMaterial>(`${baseUrl}/${id}`, 
       {'study_material': studyMaterialData}, 
-      {headers: this.postHeaders});
+      {headers: putHeaders});
   }
 
 }

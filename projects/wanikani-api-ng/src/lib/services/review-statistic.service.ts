@@ -5,25 +5,23 @@ import { ReviewStatisticCollection } from '../models/review-statistic/review-col
 import { ReviewStatistic } from '../models/review-statistic/review-statistic.model';
 import { AllReviewStatisticsParams } from '../models/review-statistic/all-review-statistics-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/review_statistics';
 
 @Injectable()
-export class ReviewStatisticsService {
-  public baseUrl = 'https://api.wanikani.com/v2/review_statistics'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
+export class ReviewStatisticService { 
 
   constructor(private http: HttpClient) { }
 
   /**
    * Get a collection of all review statistics
    * @param page Optional next page from review statistic response
+   * @param params Optional query params
    */
   public getAllReviewStatistics(params?: AllReviewStatisticsParams, page?: string): Observable<ReviewStatisticCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
-    return this.http.get<ReviewStatisticCollection>(`${url}`, { headers: this.getHeaders });
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
+    return this.http.get<ReviewStatisticCollection>(`${url}`, { headers: getHeaders });
   }
 
   /**
@@ -31,7 +29,7 @@ export class ReviewStatisticsService {
    * @param id Id of review statistic
    */
   public getReviewStatistic(id: number): Observable<ReviewStatistic> {
-    return this.http.get<ReviewStatistic>(`${this.baseUrl}/${id}`, { headers: this.getHeaders });
+    return this.http.get<ReviewStatistic>(`${baseUrl}/${id}`, { headers: getHeaders });
   }
 
 }

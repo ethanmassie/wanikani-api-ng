@@ -7,20 +7,12 @@ import { CreateReviewRequest } from '../models/review/create-review-request.mode
 import { CreateReviewResponse } from '../models/review/create-review-response.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { AllReviewsParams } from '../models/review/all-reviews-params.model';
+import { getHeaders, postHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/reviews';
 
 @Injectable()
-export class ReviewsService {
-  public baseUrl = 'https://api.wanikani.com/v2/reviews'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
-
-  private postHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
+export class ReviewService {
   
   constructor(private http: HttpClient) { }
 
@@ -30,8 +22,8 @@ export class ReviewsService {
    * @param page Optional next page from review response
    */
   public getAllReviews(params?: AllReviewsParams, page?: string): Observable<ReviewCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
-    return this.http.get<ReviewCollection>(`${url}`, { headers: this.getHeaders });
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
+    return this.http.get<ReviewCollection>(url, { headers: getHeaders });
   }
 
   /**
@@ -39,7 +31,7 @@ export class ReviewsService {
    * @param id Id of review
    */
   public getReview(id: number): Observable<Review> {
-    return this.http.get<Review>(`${this.baseUrl}/${id}`, { headers: this.getHeaders });
+    return this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders });
   }
 
   /**
@@ -47,8 +39,8 @@ export class ReviewsService {
    * @param request CreateReviewRequest with assignment to create
    */
   public createReview(request: CreateReviewRequest): Observable<CreateReviewResponse> {
-    return this.http.post<CreateReviewResponse>(`${this.baseUrl}`, 
+    return this.http.post<CreateReviewResponse>(`${baseUrl}`, 
       {'review': request}, 
-      {headers: this.postHeaders});
+      {headers: postHeaders});
   }
 }

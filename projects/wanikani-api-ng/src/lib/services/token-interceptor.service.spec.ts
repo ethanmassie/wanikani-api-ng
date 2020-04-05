@@ -3,11 +3,11 @@ import { TokenInterceptorService } from './token-interceptor.service';
 import { TokenService } from './token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { AssignmentsService } from './assignments.service';
+import { AssignmentService } from './assignment.service';
 
 describe('TokenInterceptorService', () => {
   let tokenService: TokenService;
-  let assignmentsService: AssignmentsService;
+  let assignmentsService: AssignmentService;
   let httpMock: HttpTestingController;
 
   beforeEach(
@@ -23,12 +23,12 @@ describe('TokenInterceptorService', () => {
           useClass: TokenInterceptorService,
           multi: true
         },
-        AssignmentsService
+        AssignmentService
       ]
       });
 
       tokenService = TestBed.get(TokenService);
-      assignmentsService = TestBed.get(AssignmentsService);
+      assignmentsService = TestBed.get(AssignmentService);
       httpMock = TestBed.get(HttpTestingController);
 
       tokenService.setApiToken('mock token');
@@ -44,7 +44,7 @@ describe('TokenInterceptorService', () => {
           }
         );
 
-      const httpRequest = httpMock.expectOne(`${assignmentsService.baseUrl}`);
+      const httpRequest = httpMock.expectOne('https://api.wanikani.com/v2/assignments');
       expect(httpRequest.request.headers.has('Authorization')).toBeTruthy();
     }
   );

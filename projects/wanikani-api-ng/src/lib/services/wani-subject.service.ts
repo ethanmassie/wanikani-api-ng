@@ -5,21 +5,12 @@ import { WaniSubjectCollection } from '../models/wani-subject/wani-subject-colle
 import { WaniSubject } from '../models/wani-subject/wani-subject.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { AllSubjectsParams } from '../models/wani-subject/all-subjects-params.model';
+import { getHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/subjects';
 
 @Injectable()
 export class WaniSubjectService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/subjects'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
-
-  private putHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
 
   constructor(private http: HttpClient) { }
   
@@ -30,9 +21,9 @@ export class WaniSubjectService {
    * Return the subject collection as an observable
    */
   public getAllSubjects(params?: AllSubjectsParams, page?: string): Observable<WaniSubjectCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     return this.http.get<WaniSubjectCollection>(url,
-      { headers: this.getHeaders }
+      { headers: getHeaders }
     );
   }
 
@@ -42,8 +33,8 @@ export class WaniSubjectService {
    * Return the subject as an observable
    */
   public getSubject(id: number): Observable<WaniSubject> {
-    return this.http.get<WaniSubject>(`${this.baseUrl}/${id}`,
-      { headers: this.getHeaders }
+    return this.http.get<WaniSubject>(`${baseUrl}/${id}`,
+      { headers: getHeaders }
     );
   }
 

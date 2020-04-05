@@ -1,4 +1,4 @@
-import { WaniSubjectType } from '../../enums/subject-type.enum';
+import { WaniSubjectType } from '../../enums/wani-subject-type.enum';
 import { SrsStageType } from '../../enums/srs-stage-type.enum';
 import { SrsStageName } from '../../enums/srs-stage-name.enum';
 

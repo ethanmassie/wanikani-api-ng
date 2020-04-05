@@ -5,16 +5,12 @@ import { Observable } from 'rxjs';
 import { LevelProgression } from '../models/level-progression/level-progression.model';
 import { AllLevelProgressionsParams } from '../models/level-progression/all-level-progressions-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/level_progressions';
 
 @Injectable()
-export class LevelProgressionsService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/level_progressions';
-  public apiRevision = '20170710';
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
+export class LevelProgressionService {
 
   constructor(private http: HttpClient) { }
   
@@ -25,8 +21,8 @@ export class LevelProgressionsService {
    * Return the level progression collection as an observable
    */
   public getAllLevelProgressions(params?: AllLevelProgressionsParams, page?: string): Observable<LevelProgressionCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
-    return this.http.get<LevelProgressionCollection>(url, {headers: this.getHeaders});
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
+    return this.http.get<LevelProgressionCollection>(url, {headers: getHeaders});
   }
 
   /**
@@ -35,6 +31,6 @@ export class LevelProgressionsService {
    * Return the level progression as an observable
    */
   public getLevelProgression(id: number): Observable<LevelProgression> {
-    return this.http.get<LevelProgression>(`${this.baseUrl}/${id}`, {headers: this.getHeaders});
+    return this.http.get<LevelProgression>(`${baseUrl}/${id}`, {headers: getHeaders});
   }
 }

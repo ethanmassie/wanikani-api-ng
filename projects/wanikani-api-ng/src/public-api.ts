@@ -8,9 +8,9 @@ export * from './lib/wanikani-api-ng.module';
 // Enums
 export * from './lib/enums/srs-stage-name.enum';
 export * from './lib/enums/srs-stage-type.enum';
-export * from './lib/enums/subject-type.enum';
+export * from './lib/enums/wani-subject-type.enum';
 export * from './lib/enums/gender.enum';
-export * from './lib/enums/subscription-type.enum';
+export * from './lib/enums/wani-subscription-type.enum';
 export * from './lib/enums/presentation-order.enum';
 export * from './lib/enums/audio-type.enum';
 export * from './lib/enums/image-type.enum';
@@ -20,8 +20,8 @@ export * from './lib/enums/meaning-type.enum';
 // Models
 export * from './lib/models/pages.model';
 export * from './lib/models/preferences.model';
-export * from './lib/models/wani-subject-list.model';
-export * from './lib/models/subscription.model';
+export * from './lib/models/wani-subject/wani-subject-list.model';
+export * from './lib/models/wani-subscription.model';
 // Assignments
 export * from './lib/models/assignment/all-assignments-params.model';
 export * from './lib/models/assignment/assignment-collection.model';
@@ -90,12 +90,12 @@ export * from './lib/models/reading/kanji-reading.model';
 export * from './lib/models/reading/reading.model';
 
 // Services
-export * from './lib/services/assignments.service';
-export * from './lib/services/level-progressions.service';
-export * from './lib/services/resets.service';
-export * from './lib/services/reviews.service';
-export * from './lib/services/review-statistics.service';
-export * from './lib/services/study-materials.service';
+export * from './lib/services/assignment.service';
+export * from './lib/services/level-progression.service';
+export * from './lib/services/reset.service';
+export * from './lib/services/review.service';
+export * from './lib/services/review-statistic.service';
+export * from './lib/services/study-material.service';
 export * from './lib/services/srs-stage.service';
 export * from './lib/services/summary.service';
 export * from './lib/services/user.service';

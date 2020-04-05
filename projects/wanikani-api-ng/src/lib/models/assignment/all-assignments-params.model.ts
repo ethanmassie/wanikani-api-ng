@@ -1,4 +1,4 @@
-import { WaniSubjectType } from '../../enums/subject-type.enum';
+import { WaniSubjectType } from '../../enums/wani-subject-type.enum';
 
 export interface AllAssignmentsParams {
   available_after?:                    Date;

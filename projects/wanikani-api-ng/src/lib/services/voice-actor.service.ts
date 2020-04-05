@@ -5,16 +5,12 @@ import { VoiceActorCollection } from '../models/voice-actor/voice-actor-collecti
 import { VoiceActor } from '../models/voice-actor/voice-actor.model';
 import { AllVoiceActorsParams } from '../models/voice-actor/all-voice-actors-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/voice_actors';
 
 @Injectable()
 export class VoiceActorService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/voice_actors'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
 
   constructor(private http: HttpClient) { }
 
@@ -24,9 +20,9 @@ export class VoiceActorService {
    * Return the voice actors collection as an observable
    */
   public getAllVoiceActors(params?: AllVoiceActorsParams, page?: string): Observable<VoiceActorCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     return this.http.get<VoiceActorCollection>(url,
-      { headers: this.getHeaders }
+      { headers: getHeaders }
     );
   }
 
@@ -36,8 +32,8 @@ export class VoiceActorService {
    * Return the voice actor as an observable
    */
   public getVoiceActor(voiceActorId: number): Observable<VoiceActor> {
-    return this.http.get<VoiceActor>(`${this.baseUrl}/${voiceActorId}`,
-      { headers: this.getHeaders }
+    return this.http.get<VoiceActor>(`${baseUrl}/${voiceActorId}`,
+      { headers: getHeaders }
     );
   }
 

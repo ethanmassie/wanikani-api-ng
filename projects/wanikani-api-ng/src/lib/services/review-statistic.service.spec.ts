@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ReviewStatisticsService } from './review-statistics.service'
+import { ReviewStatisticService } from './review-statistic.service'
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from './token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../../public-api';
 
-describe('ReviewStatisticsService', () => {
-  let reviewStatisticsService: ReviewStatisticsService;
+describe('ReviewStatisticService', () => {
+  let reviewStatisticsService: ReviewStatisticService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,13 +21,13 @@ describe('ReviewStatisticsService', () => {
           useClass: TokenInterceptorService,
           multi: true
         },
-        ReviewStatisticsService,
+        ReviewStatisticService,
       ]
     });
     const tokenService = TestBed.get(TokenService);
     tokenService.setApiToken('mock token');
 
-    reviewStatisticsService = TestBed.inject(ReviewStatisticsService);
+    reviewStatisticsService = TestBed.inject(ReviewStatisticService);
   });
 
   it('should be created', () => {

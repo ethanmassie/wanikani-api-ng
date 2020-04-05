@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ResetsService } from './resets.service';
+import { ResetService } from './reset.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from './token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../../public-api';
 
-describe('ResetsService', () => {
-  let resetsService: ResetsService;
+describe('ResetService', () => {
+  let resetsService: ResetService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,13 +21,13 @@ describe('ResetsService', () => {
           useClass: TokenInterceptorService,
           multi: true
         },
-        ResetsService
+        ResetService
       ]
     });
     const tokenService = TestBed.get(TokenService);
     tokenService.setApiToken('mock token');
 
-    resetsService = TestBed.get(ResetsService);  });
+    resetsService = TestBed.get(ResetService);  });
 
   it('should be created', () => {
     expect(resetsService).toBeTruthy();

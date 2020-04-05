@@ -3,21 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user/user.model';
 import { Preferences } from '../models/preferences.model';
+import { getHeaders, putHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/user';
 
 @Injectable()
 export class UserService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/user';
-  public apiRevision = '20170710';
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
-
-  private putHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
 
   constructor(private http: HttpClient) { }
 
@@ -26,8 +17,8 @@ export class UserService {
    * Return the user as an observable
    */
   public getUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}`,
-      { headers: this.getHeaders }
+    return this.http.get<User>(baseUrl,
+      { headers: getHeaders }
     );
   }
 
@@ -36,13 +27,13 @@ export class UserService {
    * Return the updated user as an observable
    */
   public updateUser(preferences: Preferences): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}`, 
+    return this.http.put<User>(baseUrl, 
       {
         "user" : {
           "preferences" : preferences
         }
       }, 
-      { headers: this.putHeaders }
+      { headers: putHeaders }
     );
   }
 

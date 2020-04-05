@@ -5,21 +5,12 @@ import { AssignmentCollection } from '../models/assignment/assignment-collection
 import { Assignment } from '../models/assignment/assignment.model';
 import { AllAssignmentsParams } from '../models/assignment/all-assignments-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders, putHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/assignments';
 
 @Injectable()
-export class AssignmentsService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/assignments'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
-
-  private putHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision,
-    'Content-Type': 'application/json; charset=utf-8'
-  });
+export class AssignmentService {
 
   constructor(private http: HttpClient) { }
 
@@ -30,9 +21,9 @@ export class AssignmentsService {
    * Return the assignment collection as an observable
    */
   public getAllAssignments(params?: AllAssignmentsParams, page?: string): Observable<AssignmentCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, this.baseUrl);
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     return this.http.get<AssignmentCollection>(url,
-      { headers: this.getHeaders }
+      { headers: getHeaders }
     );
   }
 
@@ -42,8 +33,8 @@ export class AssignmentsService {
    * Return the assignment as an observable
    */
   public getAssignment(id: number): Observable<Assignment> {
-    return this.http.get<Assignment>(`${this.baseUrl}/${id}`,
-      { headers: this.getHeaders }
+    return this.http.get<Assignment>(`${baseUrl}/${id}`,
+      { headers: getHeaders }
     );
   }
 
@@ -52,10 +43,10 @@ export class AssignmentsService {
    * @param id 
    * Return the started assignment as an observable
    */
-  public startAssignment(id: number, startedAt: Date = new Date()): Observable<Assignment> {
-    return this.http.put<Assignment>(`${this.baseUrl}/${id}/start`,
-      { started_at: startedAt },
-      { headers: this.putHeaders }
+  public startAssignment(id: number, req: {started_at?: Date} = {}): Observable<Assignment> {
+    return this.http.put<Assignment>(`${baseUrl}/${id}/start`,
+      req,
+      { headers: putHeaders }
     );
   }
 

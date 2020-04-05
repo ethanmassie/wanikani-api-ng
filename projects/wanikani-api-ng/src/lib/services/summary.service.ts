@@ -2,17 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Summary } from '../models/summary/summary.model';
+import { getHeaders } from '../constants';
 
+const baseUrl = 'https://api.wanikani.com/v2/summary';
 
 @Injectable()
 export class SummaryService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/summary'
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
 
   constructor(private http: HttpClient) { }
 
@@ -21,9 +16,8 @@ export class SummaryService {
    * Return the user's summary report
    */
   public getSummary(): Observable<Summary> {
-    const url = this.baseUrl;
-    return this.http.get<Summary>(`${url}`,
-      { headers: this.getHeaders }
+    return this.http.get<Summary>(baseUrl,
+      { headers: getHeaders }
     );
   }
 

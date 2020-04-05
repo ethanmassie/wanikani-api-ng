@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class TokenService {
+// Key to the api token in local storage
+const tokenKey = 'burnt_tofu_token';
 
-  // Key to the api token in local storage
-  private tokenKey = 'burnt_tofu_token';
+@Injectable()
+export class TokenService { 
 
   constructor() { }
 
@@ -15,7 +13,7 @@ export class TokenService {
    * Helper method which retrieves the token from local storage
    */
   private getToken(): string  {
-    return localStorage.getItem(this.tokenKey);
+    return localStorage.getItem(tokenKey);
   }
 
   /**
@@ -35,20 +33,20 @@ export class TokenService {
    * @param apiToken 
    */
   public setApiToken(apiToken: string) {
-    localStorage.setItem(this.tokenKey, apiToken);
+    localStorage.setItem(tokenKey, apiToken);
   }
 
   /**
    * Check if a token exists in local storage
    */
   public hasToken(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+    return !!localStorage.getItem(tokenKey);
   }
 
   /**
    * Removes the token from local storage
    */
   public clearToken() {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(tokenKey);
   }
 }

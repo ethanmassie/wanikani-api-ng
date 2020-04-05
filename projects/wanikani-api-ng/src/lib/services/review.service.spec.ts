@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LevelProgressionsService } from './level-progressions.service';
+import { ReviewService } from './review.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TokenService } from './token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from '../../public-api';
 
-describe('LevelProgressionService', () => {
-  let levelProgressionsService: LevelProgressionsService;
+describe('ReviewService', () => {
+  let reviewsService: ReviewService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -21,17 +21,16 @@ describe('LevelProgressionService', () => {
           useClass: TokenInterceptorService,
           multi: true
         },
-        LevelProgressionsService
+        ReviewService,
       ]
     });
-    
     const tokenService = TestBed.get(TokenService);
     tokenService.setApiToken('mock token');
 
-    levelProgressionsService = TestBed.get(LevelProgressionsService);
+    reviewsService = TestBed.inject(ReviewService);
   });
 
   it('should be created', () => {
-    expect(levelProgressionsService).toBeTruthy();
+    expect(reviewsService).toBeTruthy();
   });
 });

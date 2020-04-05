@@ -5,27 +5,23 @@ import { Observable } from 'rxjs';
 import { Reset } from '../models/reset/reset.model';
 import { AllResetsParams } from '../models/reset/all-resets-params.model';
 import { appendQueryToUrl } from '../util/query-param';
+import { getHeaders } from '../constants';
+
+const baseUrl = 'https://api.wanikani.com/v2/resets';
 
 @Injectable()
-export class ResetsService {
-
-  public baseUrl = 'https://api.wanikani.com/v2/resets';
-  public apiRevision = '20170710'
-
-  private getHeaders = new HttpHeaders({
-    'Wanikani-Revision': this.apiRevision
-  });
+export class ResetService {
 
   constructor(private http: HttpClient) { }
 
   /**
-   * // TODO: Add other reset specific query parameters (ids, updated_after)
    * Return the collection of all resets
    * @param page Optional page for getting the next page from a paginated response
+   * @param params Optional query params
    */
   public getAllResets(params?: AllResetsParams, page?: string): Observable<ResetCollection> {
-    const url = !!page ? page: appendQueryToUrl(params, this.baseUrl);
-    return this.http.get<ResetCollection>(url, { headers: this.getHeaders});
+    const url = !!page ? page: appendQueryToUrl(params, baseUrl);
+    return this.http.get<ResetCollection>(url, { headers: getHeaders});
   }
 
   /**
@@ -33,7 +29,7 @@ export class ResetsService {
    * @param id number identifier of reset to get
    */
   public getReset(id: number): Observable<Reset> {
-    return this.http.get<Reset>(`${this.baseUrl}/${id}`, {headers: this.getHeaders});
+    return this.http.get<Reset>(`${baseUrl}/${id}`, {headers: getHeaders});
   }
 
 }
