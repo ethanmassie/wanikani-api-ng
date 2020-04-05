@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { ReviewCollection } from '../models/review/review-collection.model';
 import { Review } from '../models/review/review.model';
-import { CreateReviewRequest } from '../models/review/create-review-request.model';
+import { CreateReviewRequest, isValid } from '../models/review/create-review-request.model';
 import { CreateReviewResponse } from '../models/review/create-review-response.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { AllReviewsParams } from '../models/review/all-reviews-params.model';
@@ -39,6 +39,10 @@ export class ReviewService {
    * @param request CreateReviewRequest with assignment to create
    */
   public createReview(request: CreateReviewRequest): Observable<CreateReviewResponse> {
+    if(!isValid(request)) {
+      return throwError('CreateReviewRequest must have assignment_id or subject_id set but not both');
+    }
+
     return this.http.post<CreateReviewResponse>(`${baseUrl}`, 
       {'review': request}, 
       {headers: postHeaders});
