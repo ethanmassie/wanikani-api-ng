@@ -1,6 +1,6 @@
 {
   "name": "wanikani-api-ng",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Typescript models and Angular services for interfacing with the wanikani api",
   "keywords": ["Angular", "Library", "WaniKani", "api", "japanese", "kanji"],
   "license": "MIT",
