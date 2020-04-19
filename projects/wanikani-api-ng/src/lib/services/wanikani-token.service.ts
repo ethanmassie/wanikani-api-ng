@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // Key to the api token in local storage
 const tokenKey = 'burnt_tofu_token';
@@ -7,7 +8,11 @@ const tokenKey = 'burnt_tofu_token';
 @Injectable()
 export class WanikaniTokenService { 
 
-  constructor() { }
+  private isAuthenticated: BehaviorSubject<boolean>;
+
+  constructor() { 
+    this.isAuthenticated = new BehaviorSubject(this.hasToken());
+  }
 
   /**
    * Helper method which retrieves the token from local storage
@@ -29,11 +34,12 @@ export class WanikaniTokenService {
   }
 
   /**
-   * Store the api token in local storage
+   * Store the api token in local storage and set the user to authenticated
    * @param apiToken 
    */
   public setApiToken(apiToken: string) {
     localStorage.setItem(tokenKey, apiToken);
+    this.isAuthenticated.next(true); // assume they are authenticated just based on providing a token
   }
 
   /**
@@ -44,9 +50,17 @@ export class WanikaniTokenService {
   }
 
   /**
-   * Removes the token from local storage
+   * Removes the token from local storage and sets isAuthenticated to false
    */
-  public clearToken() {
+  public logout() {
     localStorage.removeItem(tokenKey);
+    this.isAuthenticated.next(false);
+  }
+
+  /**
+   * Return is authenticated as an observable
+   */
+  public getIsAuthenticated(): Observable<boolean> {
+    return this.isAuthenticated.asObservable();
   }
 }
