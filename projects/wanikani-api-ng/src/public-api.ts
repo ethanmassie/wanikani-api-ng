@@ -104,3 +104,6 @@ export * from './lib/services/voice-actor.service';
 export * from './lib/services/wanikani-token-interceptor.service';
 export * from './lib/services/wanikani-token.service';
 export * from './lib/services/wani-subject.service';
+
+// Guards
+export * from './lib/guards/auth.guard';
