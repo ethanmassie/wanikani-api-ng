@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { WanikaniTokenService } from './wanikani-token.service';
 
 @Injectable()
@@ -15,6 +16,12 @@ export class WanikaniTokenInterceptorService implements HttpInterceptor {
    */
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     req = this.tokenService.addAuthHeader(req);
-    return next.handle(req);
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if(error.status == 401 || error.status == 403) 
+          this.tokenService.logout();
+        return throwError(error);
+      })
+    );
   }
 }
