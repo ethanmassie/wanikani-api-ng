@@ -18,7 +18,8 @@ export class WanikaniTokenInterceptorService implements HttpInterceptor {
     req = this.tokenService.addAuthHeader(req);
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        if(error.status == 401 && error.error == 'Unauthorized. Nice try.') {
+        const errorMsg = <string>error.error.error;
+        if(errorMsg.toLowerCase().includes('unauthorized')) {
           this.tokenService.logout();
         }
         return throwError(error);
