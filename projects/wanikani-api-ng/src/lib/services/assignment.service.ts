@@ -18,16 +18,15 @@ export class AssignmentService {
   constructor(private http: HttpClient) { }
 
   /**
-   * // TODO: Add other assignment specific query parameters (available_after, available_before, burned, hidden, ids, immediately_available_for_lessons, immediately_available_for_review, in_review, levels, passed, srs_stages, started, subject_ids, subejct_types, unlocked, updated_after)
    * Get a collection of all assignments
    * @param page Optional page to get assignments from
    * Return the assignment collection as an observable
    */
   public getAllAssignments(params?: AllAssignmentsParams, page?: string): Observable<AssignmentCollection> {
-    const key = `ALL_ASSIGNMENTS:${page}`;
+    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
+    const key = `ALL_ASSIGNMENTS:${url}`;
 
     if(!this.cache.has(key)) {
-      const url = !!page ? page : appendQueryToUrl(params, baseUrl);
       this.cache.set(key, this.http.get<AssignmentCollection>(url, {headers: getHeaders}).pipe(
           publishReplay(1),
           refCount()
@@ -53,7 +52,7 @@ export class AssignmentService {
       );
     }
 
-    return this.cache.get(key);
+    return <Observable<Assignment>>this.cache.get(key);
   }
 
   /**
@@ -65,6 +64,9 @@ export class AssignmentService {
     return this.http.put<Assignment>(`${baseUrl}/${id}/start`, req, { headers: putHeaders });
   }
 
+  /**
+   * Clear all cached observables
+   */
   public clearCache() {
     this.cache.clear();
   }

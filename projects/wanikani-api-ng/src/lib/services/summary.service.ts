@@ -16,9 +16,7 @@ export class SummaryService {
    * Return the user's summary report
    */
   public getSummary(): Observable<Summary> {
-    return this.http.get<Summary>(baseUrl,
-      { headers: getHeaders }
-    );
+    return this.http.get<Summary>(baseUrl, { headers: getHeaders });
   }
 
 }

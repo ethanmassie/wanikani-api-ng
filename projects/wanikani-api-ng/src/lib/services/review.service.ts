@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { ReviewCollection } from '../models/review/review-collection.model';
 import { Review } from '../models/review/review.model';
@@ -8,22 +8,34 @@ import { CreateReviewResponse } from '../models/review/create-review-response.mo
 import { appendQueryToUrl } from '../util/query-param';
 import { AllReviewsParams } from '../models/review/all-reviews-params.model';
 import { getHeaders, postHeaders } from '../constants';
+import { publishReplay, refCount } from 'rxjs/operators';
 
 const baseUrl = 'https://api.wanikani.com/v2/reviews';
 
 @Injectable()
 export class ReviewService {
-  
+
+  private cache = new Map<string, Observable<any>>();
+
   constructor(private http: HttpClient) { }
 
   /**
-   * // TODO: Add other review specific query parameters (assignment_ids, ids, subject_ids, updated_after)
    * Get a collection of all reviews
    * @param page Optional next page from review response
    */
   public getAllReviews(params?: AllReviewsParams, page?: string): Observable<ReviewCollection> {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
-    return this.http.get<ReviewCollection>(url, { headers: getHeaders });
+    const key = `ALL_REVIEWS:${url}`;
+
+    if(!this.cache.has(key)) {
+      this.cache.set(key, this.http.get<ReviewCollection>(url, { headers: getHeaders }).pipe(
+          publishReplay(1),
+          refCount()
+        )
+      );
+    }
+
+    return this.cache.get(key);
   }
 
   /**
@@ -31,7 +43,17 @@ export class ReviewService {
    * @param id Id of review
    */
   public getReview(id: number): Observable<Review> {
-    return this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders });
+    const key = `REVIEW:${id}`;
+
+    if(!this.cache.has(key)) {
+      this.cache.set(key, this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
+          publishReplay(1),
+          refCount()
+        )
+      );
+    }
+
+    return this.cache.get(key);
   }
 
   /**
@@ -43,8 +65,13 @@ export class ReviewService {
       return throwError('CreateReviewRequest must have assignment_id or subject_id set but not both');
     }
 
-    return this.http.post<CreateReviewResponse>(`${baseUrl}`, 
-      {'review': request}, 
-      {headers: postHeaders});
+    return this.http.post<CreateReviewResponse>(`${baseUrl}`, {'review': request}, {headers: postHeaders});
+  }
+
+  /**
+   * Clear all cached observables
+   */
+  public clearCache() {
+    this.cache.clear();
   }
 }
