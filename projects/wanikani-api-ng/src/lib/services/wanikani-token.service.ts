@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 // Key to the api token in local storage
 const tokenKey = 'burnt_tofu_token';
@@ -8,7 +8,9 @@ const tokenKey = 'burnt_tofu_token';
 @Injectable()
 export class WanikaniTokenService { 
 
-  private isAuthenticated: BehaviorSubject<boolean>;
+  isAuthenticated: BehaviorSubject<boolean>;
+
+  badTokenUsed = new Subject<void>();
 
   constructor() { 
     this.isAuthenticated = new BehaviorSubject(this.hasToken());
@@ -62,5 +64,9 @@ export class WanikaniTokenService {
    */
   public getIsAuthenticated(): Observable<boolean> {
     return this.isAuthenticated.asObservable();
+  }
+
+  public getBadTokenUser(): Observable<void> {
+    return this.badTokenUsed.asObservable();
   }
 }

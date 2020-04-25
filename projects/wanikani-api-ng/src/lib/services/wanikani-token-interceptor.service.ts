@@ -20,6 +20,7 @@ export class WanikaniTokenInterceptorService implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         const errorMsg = <string>error.error.error;
         if(errorMsg.toLowerCase().includes('unauthorized')) {
+          this.tokenService.badTokenUsed.next();
           this.tokenService.logout();
         }
         return throwError(error);
