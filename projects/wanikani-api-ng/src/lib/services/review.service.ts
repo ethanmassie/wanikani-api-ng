@@ -8,14 +8,15 @@ import { CreateReviewResponse } from '../models/review/create-review-response.mo
 import { appendQueryToUrl } from '../util/query-param';
 import { AllReviewsParams } from '../models/review/all-reviews-params.model';
 import { getHeaders, postHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/reviews';
 
 @Injectable()
 export class ReviewService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -27,12 +28,10 @@ export class ReviewService {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     const key = `ALL_REVIEWS:${url}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<ReviewCollection>(url, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<ReviewCollection>(url, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(reviews => this.cache.set(key, reviews));
     }
 
     return this.cache.get(key);
@@ -45,12 +44,10 @@ export class ReviewService {
   public getReview(id: number): Observable<Review> {
     const key = `REVIEW:${id}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(review => this.cache.set(key, review));
     }
 
     return this.cache.get(key);

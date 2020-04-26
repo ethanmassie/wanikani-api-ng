@@ -6,14 +6,15 @@ import { WaniSubject } from '../models/wani-subject/wani-subject.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { AllSubjectsParams } from '../models/wani-subject/all-subjects-params.model';
 import { getHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/subjects';
 
 @Injectable()
 export class WaniSubjectService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
   
@@ -26,12 +27,10 @@ export class WaniSubjectService {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     const key = `ALL_SUBJECTS:${url}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<WaniSubjectCollection>(url, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<WaniSubjectCollection>(url, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(subjs => this.cache.set(key, subjs));
     }
 
     return this.cache.get(key);
@@ -45,12 +44,10 @@ export class WaniSubjectService {
   public getSubject(id: number): Observable<WaniSubject> {
     const key = `SUBJECT:${id}`;
 
-    if(!this.cache.has(key)) {
+    if(!this.cache.isDefined(key)) {
       this.cache.set(key, this.http.get<WaniSubject>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+        take(1)
+      ).subscribe(subj => this.cache.set(key, subj)));
     }
 
     return this.cache.get(key);

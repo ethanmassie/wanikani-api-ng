@@ -6,14 +6,15 @@ import { Assignment } from '../models/assignment/assignment.model';
 import { AllAssignmentsParams } from '../models/assignment/all-assignments-params.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { getHeaders, putHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { publishReplay, refCount, take, tap } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/assignments';
 
 @Injectable()
 export class AssignmentService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -26,14 +27,13 @@ export class AssignmentService {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     const key = `ALL_ASSIGNMENTS:${url}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<AssignmentCollection>(url, {headers: getHeaders}).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      )
+    if(!this.cache.isDefined(key)) {
+      this.http.get<AssignmentCollection>(url, {headers: getHeaders}).pipe(
+        take(1)
+      ).subscribe(col => this.cache.set(key, col));
     }
-    return <Observable<AssignmentCollection>>this.cache.get(key);
+
+    return this.cache.get(key);
   }
 
   /**
@@ -44,12 +44,15 @@ export class AssignmentService {
   public getAssignment(id: number): Observable<Assignment> {
     const key = `ASSIGNMENT:${id}`;
 
-    if(!this.cache.has(key)) {
+    if(!this.cache.isDefined(key)) {
       this.cache.set(key, this.http.get<Assignment>(`${baseUrl}/${id}`,{ headers: getHeaders }).pipe(
           publishReplay(1),
           refCount()
         )
       );
+      this.http.get<Assignment>(`${baseUrl}/${id}`,{ headers: getHeaders }).pipe(
+          take(1)
+        ).subscribe(assignment => this.cache.set(key, assignment));
     }
 
     return <Observable<Assignment>>this.cache.get(key);
@@ -61,7 +64,12 @@ export class AssignmentService {
    * Return the started assignment as an observable
    */
   public startAssignment(id: number, req: {started_at?: Date} = {}): Observable<Assignment> {
-    return this.http.put<Assignment>(`${baseUrl}/${id}/start`, req, { headers: putHeaders });
+    return this.http.put<Assignment>(`${baseUrl}/${id}/start`, req, { headers: putHeaders }).pipe(
+      tap(assignment => {
+        const key = `ASSIGNMENT:${id}`;
+        this.cache.set(key, assignment);
+      })
+    );
   }
 
   /**

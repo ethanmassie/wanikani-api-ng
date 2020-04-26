@@ -6,14 +6,15 @@ import { LevelProgression } from '../models/level-progression/level-progression.
 import { AllLevelProgressionsParams } from '../models/level-progression/all-level-progressions-params.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { getHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/level_progressions';
 
 @Injectable()
 export class LevelProgressionService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
   
@@ -27,12 +28,10 @@ export class LevelProgressionService {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     const key = `ALL_LEVEL_PROGRESSIONS:${url}`
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<LevelProgressionCollection>(url, {headers: getHeaders}).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<LevelProgressionCollection>(url, {headers: getHeaders}).pipe(
+        take(1)
+      ).subscribe(progression => this.cache.set(key, progression));
     }
 
     return this.cache.get(key);
@@ -46,11 +45,10 @@ export class LevelProgressionService {
   public getLevelProgression(id: number): Observable<LevelProgression> {
     const key = `LEVEL_PROGRESSION:${id}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<LevelProgression>(`${baseUrl}/${id}`, {headers: getHeaders}).pipe(
-        publishReplay(1),
-        refCount()
-      ));
+    if(!this.cache.isDefined(key)) {
+      this.http.get<LevelProgression>(`${baseUrl}/${id}`, {headers: getHeaders}).pipe(
+        take(1)
+      ).subscribe(progression => this.cache.set(key, progression));
     }
 
     return this.cache.get(key);

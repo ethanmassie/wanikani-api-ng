@@ -6,14 +6,15 @@ import { Reset } from '../models/reset/reset.model';
 import { AllResetsParams } from '../models/reset/all-resets-params.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { getHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/resets';
 
 @Injectable()
 export class ResetService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -26,12 +27,10 @@ export class ResetService {
     const url = !!page ? page: appendQueryToUrl(params, baseUrl);
     const key = `ALL_RESETS:${url}`
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<ResetCollection>(url, { headers: getHeaders}).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<ResetCollection>(url, { headers: getHeaders}).pipe(
+        take(1)
+      ).subscribe(resets => this.cache.set(key, resets))
     }
 
     return this.cache.get(key);
@@ -44,12 +43,10 @@ export class ResetService {
   public getReset(id: number): Observable<Reset> {
     const key = `RESET:${id}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<Reset>(`${baseUrl}/${id}`, {headers: getHeaders}).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<Reset>(`${baseUrl}/${id}`, {headers: getHeaders}).pipe(
+        take(1)
+      ).subscribe(reset => this.cache.set(key, reset))
     }
     
     return this.cache.get(key);

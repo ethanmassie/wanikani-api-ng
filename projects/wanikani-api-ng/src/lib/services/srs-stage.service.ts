@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SrsStageCollection } from '../models/srs-stage/srs-stage-collection.model';
 import { getHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { publishReplay, refCount, take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/srs_stages';
 
 @Injectable()
 export class SrsStageService { 
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -21,12 +22,10 @@ export class SrsStageService {
   public getSrsStages(): Observable<SrsStageCollection> {
     const key = 'SRS_STAGES';
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<SrsStageCollection>(baseUrl, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<SrsStageCollection>(baseUrl, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(stages => this.cache.set(key, stages));
     }
 
     return this.cache.get(key);

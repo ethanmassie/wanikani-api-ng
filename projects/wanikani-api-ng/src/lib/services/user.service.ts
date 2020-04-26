@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user/user.model';
 import { Preferences } from '../models/preferences.model';
 import { getHeaders, putHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { publishReplay, refCount, take, tap } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/user';
 const userKey = 'USER';
@@ -12,7 +13,7 @@ const userKey = 'USER';
 @Injectable()
 export class UserService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -22,12 +23,10 @@ export class UserService {
    */
   public getUser(): Observable<User> {
 
-    if(!this.cache.has(userKey)) {
-      this.cache.set(userKey, this.http.get<User>(baseUrl, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(userKey)) {
+      this.http.get<User>(baseUrl, { headers: getHeaders }).pipe(
+        take(1),
+      ).subscribe(user => this.cache.set(userKey, user));
     }
 
     return this.cache.get(userKey);
@@ -44,17 +43,17 @@ export class UserService {
       }
     }
 
-    this.cache.set(userKey, this.http.put<User>(baseUrl, req, { headers: putHeaders }).pipe(
-        publishReplay(1),
-        refCount()
-      )
-    );
+    this.http.put<User>(baseUrl, req, { headers: putHeaders }).pipe(
+        tap(user => {
+          this.cache.set(userKey, user);
+        })
+      );
 
     return this.cache.get(userKey);
   }
 
   /**
-   * Clear all cached observables
+   * Nullify the value in cached behavior subjects
    */
   public clearCache() {
     this.cache.clear();

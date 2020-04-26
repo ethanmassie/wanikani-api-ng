@@ -6,14 +6,15 @@ import { VoiceActor } from '../models/voice-actor/voice-actor.model';
 import { AllVoiceActorsParams } from '../models/voice-actor/all-voice-actors-params.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { getHeaders } from '../constants';
-import { publishReplay, refCount } from 'rxjs/operators';
+import { publishReplay, refCount, take } from 'rxjs/operators';
+import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/voice_actors';
 
 @Injectable()
 export class VoiceActorService {
 
-  private cache = new Map<string, Observable<any>>();
+  private cache = new BehaviorCache();
 
   constructor(private http: HttpClient) { }
 
@@ -26,12 +27,10 @@ export class VoiceActorService {
     const url = !!page ? page : appendQueryToUrl(params, baseUrl);
     const key = `ALL_VOICE_ACTORS:${url}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<VoiceActorCollection>(url, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<VoiceActorCollection>(url, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(vas => this.cache.set(key, vas));
     }
 
     return this.cache.get(key);
@@ -45,12 +44,10 @@ export class VoiceActorService {
   public getVoiceActor(voiceActorId: number): Observable<VoiceActor> {
     const key = `VOICE_ACTOR:${voiceActorId}`;
 
-    if(!this.cache.has(key)) {
-      this.cache.set(key, this.http.get<VoiceActor>(`${baseUrl}/${voiceActorId}`, { headers: getHeaders }).pipe(
-          publishReplay(1),
-          refCount()
-        )
-      );
+    if(!this.cache.isDefined(key)) {
+      this.http.get<VoiceActor>(`${baseUrl}/${voiceActorId}`, { headers: getHeaders }).pipe(
+        take(1)
+      ).subscribe(va => this.cache.set(key, va));
     }
 
     return this.cache.get(key);
