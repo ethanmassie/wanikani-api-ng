@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { StudyMaterialCollection } from '../models/study-material/study-material-collection.model';
 import { StudyMaterial } from '../models/study-material/study-material.model';
 import { StudyMaterialData } from '../models/study-material/study-material-data.model';
@@ -7,11 +7,14 @@ import { Observable } from 'rxjs';
 import { AllStudyMaterialsParams } from '../models/study-material/all-study-materials-params.model';
 import { appendQueryToUrl } from '../util/query-param';
 import { getHeaders, postHeaders, putHeaders } from '../constants';
+import { publishReplay, refCount } from 'rxjs/operators';
 
 const baseUrl = 'https://api.wanikani.com/v2/study_materials';
 
 @Injectable()
 export class StudyMaterialService { 
+
+  private cache = new Map<string, Observable<any>>();
 
   constructor(private http: HttpClient) { }
 
@@ -22,7 +25,17 @@ export class StudyMaterialService {
    */
   public getAllStudyMaterials(params?: AllStudyMaterialsParams,page?: string): Observable<StudyMaterialCollection> {
     const url = !!page ? page: appendQueryToUrl(params, baseUrl);
-    return this.http.get<StudyMaterialCollection>(url, {headers: getHeaders});
+    const key = `ALL_STUDY_MATERIALS:${url}`;
+
+    if(!this.cache.has(key)) {
+      this.cache.set(key, this.http.get<StudyMaterialCollection>(url, {headers: getHeaders}).pipe(
+          publishReplay(1),
+          refCount()
+        )
+      );
+    }
+
+    return this.cache.get(key);
   }
 
   /**
@@ -30,7 +43,17 @@ export class StudyMaterialService {
    * @param id Id of study material to get
    */
   public getStudyMaterial(id: number): Observable<StudyMaterial> {
-    return this.http.get<StudyMaterial>(`${baseUrl}/${id}`);
+    const key = `STUDY_MATERIAL:${id}`;
+
+    if(!this.cache.has(key)) {
+      this.cache.set(key, this.http.get<StudyMaterial>(`${baseUrl}/${id}`).pipe(
+          publishReplay(1),
+          refCount()
+        )
+      );
+    }
+
+    return this.cache.get(key);
   }
 
   /**
@@ -38,9 +61,7 @@ export class StudyMaterialService {
    * @param studyMaterialData Study material request data to be created
    */
   public createStudyMaterial(studyMaterialData: StudyMaterialData): Observable<StudyMaterial> {
-    return this.http.post<StudyMaterial>(baseUrl, 
-      { 'study_material': studyMaterialData}, 
-      {headers: postHeaders});
+    return this.http.post<StudyMaterial>(baseUrl, { 'study_material': studyMaterialData}, {headers: postHeaders});
   }
 
   /**
@@ -49,9 +70,13 @@ export class StudyMaterialService {
    * @param studyMaterialData Study material request data for update
    */
   public updateStudyMaterial(id: number, studyMaterialData: StudyMaterialData): Observable<StudyMaterial> {
-    return this.http.put<StudyMaterial>(`${baseUrl}/${id}`, 
-      {'study_material': studyMaterialData}, 
-      {headers: putHeaders});
+    return this.http.put<StudyMaterial>(`${baseUrl}/${id}`, {'study_material': studyMaterialData}, {headers: putHeaders});
   }
 
+  /**
+   * Clear all cached observables
+   */
+  public clearCache() {
+    this.cache.clear();
+  }
 }
