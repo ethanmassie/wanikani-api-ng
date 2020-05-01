@@ -43,13 +43,11 @@ export class UserService {
       }
     }
 
-    this.http.put<User>(baseUrl, req, { headers: putHeaders }).pipe(
-        tap(user => {
-          this.cache.set(userKey, user);
-        })
-      );
-
-    return this.cache.get(userKey);
+    return this.http.put<User>(baseUrl, req, { headers: putHeaders }).pipe(
+              tap(user => {
+                this.cache.set(userKey, user);
+              })
+            );
   }
 
   /**
