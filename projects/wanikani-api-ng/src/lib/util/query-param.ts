@@ -8,7 +8,11 @@
 export function appendQueryToUrl(params = {}, url: string): string {
   const query = Object.keys(params)
     .filter(k => params[k] != undefined) // ensure the value for k is defined
-    .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`) // create param string key=params[k] encoded
+    .map(k => {
+      return params[k] instanceof Date ? 
+          `${encodeURIComponent(k)}=${params[k].toISOString()}` : 
+          `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`
+    }) // create param string key=params[k] encoded (encode dates using ISO format)
     .join('&');
   return !!query ? `${url}?${query}` : url; // only return the url with the query if it is truthy
 }
