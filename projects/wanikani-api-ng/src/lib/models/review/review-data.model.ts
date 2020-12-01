@@ -1,15 +1,12 @@
 import { WaniSubjectType } from '../../enums/wani-subject-type.enum';
-import { SrsStageType } from '../../enums/srs-stage-type.enum';
-import { SrsStageName } from '../../enums/srs-stage-name.enum';
 
 export class ReviewData {
   created_at:                 Date;
   assignment_id:              number;
   subject_id:                 WaniSubjectType;
-  starting_srs_stage:         SrsStageType;
-  starting_srs_stage_name:    SrsStageName;
-  ending_srs_stage:           SrsStageType;
-  ending_srs_stage_name:      SrsStageName;
+  spaced_repetition_system_id: number;
+  starting_srs_stage:         number;
+  ending_srs_stage:           number;
   incorrect_meaning_answers:  number;
   incorrect_reading_answers:  number;
 }

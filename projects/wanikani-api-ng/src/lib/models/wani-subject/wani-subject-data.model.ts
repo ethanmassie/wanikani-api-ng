@@ -1,5 +1,5 @@
-import { Meaning } from '../meaning/meaning.model';
 import { AuxiliaryMeaning } from '../meaning/auxiliary-meaning.model';
+import { Meaning } from '../meaning/meaning.model';
 
 export interface WaniSubjectData {
   auxiliary:  AuxiliaryMeaning;
@@ -14,5 +14,6 @@ export interface WaniSubjectData {
   meaning_mnemonic?:  string;
   reading_hint?:      string;
   reading_mnemonic?:  string;
-  slug: string
+  slug: string;
+  spaced_repetition_system_id: number;
 }

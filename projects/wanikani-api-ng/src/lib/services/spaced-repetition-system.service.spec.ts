@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
-
-import { SrsStageService } from './srs-stage.service';
-import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { SpacedRepetitionSystemService } from './spaced-repetition-system.service';
 import { WanikaniTokenInterceptorService } from './wanikani-token-interceptor.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 
-describe('SrsStageService', () => {
-  let srsStageService: SrsStageService;
+
+describe('SpacedRepetitionSystemService', () => {
+  let SpacedRepetitionSystemService: SpacedRepetitionSystemService;
 
   beforeEach(
     () => {
@@ -22,18 +22,18 @@ describe('SrsStageService', () => {
             useClass: WanikaniTokenInterceptorService,
             multi: true
           },
-          SrsStageService
+          SpacedRepetitionSystemService
         ]
       });
 
       const tokenService = TestBed.get(WanikaniTokenService);
       tokenService.setApiToken('mock token');
       
-      srsStageService = TestBed.get(SrsStageService);
+      SpacedRepetitionSystemService = TestBed.get(SpacedRepetitionSystemService);
     }
   );
 
   it('should be created', () => {
-    expect(srsStageService).toBeTruthy();
+    expect(SpacedRepetitionSystemService).toBeTruthy();
   });
 });
