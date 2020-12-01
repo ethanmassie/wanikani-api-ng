@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReviewStatisticCollection } from '../models/review-statistic/review-collection.model';
-import { ReviewStatistic } from '../models/review-statistic/review-statistic.model';
-import { AllReviewStatisticsParams } from '../models/review-statistic/all-review-statistics-params.model';
-import { appendQueryToUrl } from '../util/query-param';
-import { getHeaders } from '../constants';
 import { take } from 'rxjs/operators';
+import { getHeaders } from '../constants';
 import { BehaviorCache } from '../models/behavior-cache';
+import { AllReviewStatisticsParams } from '../models/review-statistic/all-review-statistics-params.model';
+import { ReviewStatisticCollection } from '../models/review-statistic/review-statistic-collection.model';
+import { ReviewStatistic } from '../models/review-statistic/review-statistic.model';
+import { appendQueryToUrl } from '../util/query-param';
 
 const baseUrl = 'https://api.wanikani.com/v2/review_statistics';
 
