@@ -1,4 +1,4 @@
 export interface AllVoiceActorsParams {
-  ids?:           number[];
+  ids?: number[];
   updated_after?: Date;
 }

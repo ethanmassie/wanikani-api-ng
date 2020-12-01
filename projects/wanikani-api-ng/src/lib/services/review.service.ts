@@ -1,40 +1,33 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { getHeaders, postHeaders } from '../constants';
+import { AllReviewsParams } from '../models/review/all-reviews-params.model';
+import {
+  CreateReviewRequest,
+  isValid,
+} from '../models/review/create-review-request.model';
+import { CreateReviewResponse } from '../models/review/create-review-response.model';
 import { ReviewCollection } from '../models/review/review-collection.model';
 import { Review } from '../models/review/review.model';
-import { CreateReviewRequest, isValid } from '../models/review/create-review-request.model';
-import { CreateReviewResponse } from '../models/review/create-review-response.model';
 import { appendQueryToUrl } from '../util/query-param';
-import { AllReviewsParams } from '../models/review/all-reviews-params.model';
-import { getHeaders, postHeaders } from '../constants';
-import { take } from 'rxjs/operators';
-import { BehaviorCache } from '../models/behavior-cache';
 
 const baseUrl = 'https://api.wanikani.com/v2/reviews';
 
 @Injectable()
 export class ReviewService {
-
-  private cache = new BehaviorCache();
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Get a collection of all reviews
-   * @param page Optional next page from review response
+   * @param pageUrl Optional next page from review response
    */
-  public getAllReviews(params?: AllReviewsParams, page?: string): Observable<ReviewCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
-    const key = `ALL_REVIEWS:${url}`;
-
-    if(!this.cache.isDefined(key)) {
-      this.http.get<ReviewCollection>(url, { headers: getHeaders }).pipe(
-        take(1)
-      ).subscribe(reviews => this.cache.set(key, reviews));
-    }
-
-    return this.cache.get(key);
+  public getAllReviews(
+    params?: AllReviewsParams,
+    pageUrl?: string
+  ): Observable<ReviewCollection> {
+    const url = !!pageUrl ? pageUrl : appendQueryToUrl(params, baseUrl);
+    return this.http.get<ReviewCollection>(url, { headers: getHeaders });
   }
 
   /**
@@ -42,33 +35,26 @@ export class ReviewService {
    * @param id Id of review
    */
   public getReview(id: number): Observable<Review> {
-    const key = `REVIEW:${id}`;
-
-    if(!this.cache.isDefined(key)) {
-      this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
-        take(1)
-      ).subscribe(review => this.cache.set(key, review));
-    }
-
-    return this.cache.get(key);
+    return this.http.get<Review>(`${baseUrl}/${id}`, { headers: getHeaders });
   }
 
   /**
    * Create a new review
-   * @param request CreateReviewRequest with assignment to create
+   * @param review CreateReviewRequest with assignment to create
    */
-  public createReview(request: CreateReviewRequest): Observable<CreateReviewResponse> {
-    if(!isValid(request)) {
-      return throwError('CreateReviewRequest must have assignment_id or subject_id set but not both');
+  public createReview(
+    review: CreateReviewRequest
+  ): Observable<CreateReviewResponse> {
+    if (!isValid(review)) {
+      return throwError(
+        'CreateReviewRequest must have assignment_id or subject_id set but not both'
+      );
     }
 
-    return this.http.post<CreateReviewResponse>(`${baseUrl}`, {'review': request}, {headers: postHeaders});
-  }
-
-  /**
-   * Clear all cached observables
-   */
-  public clearCache() {
-    this.cache.clear();
+    return this.http.post<CreateReviewResponse>(
+      `${baseUrl}`,
+      { review },
+      { headers: postHeaders }
+    );
   }
 }

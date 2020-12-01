@@ -1,4 +1,4 @@
-export enum MeaningType{
-    WHITELIST = 'whitelist',
-    BLACKLIST = 'blacklist'
+export enum MeaningType {
+  WHITELIST = 'whitelist',
+  BLACKLIST = 'blacklist',
 }

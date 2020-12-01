@@ -1,4 +1,4 @@
 export interface AllLevelProgressionsParams {
-  ids?:           number[];
+  ids?: number[];
   updated_after?: Date;
 }

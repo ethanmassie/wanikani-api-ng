@@ -1,10 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-
-import { StudyMaterialService } from './study-material.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { WanikaniTokenService } from './wanikani-token.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { WanikaniTokenInterceptorService } from '../../public-api';
+import { StudyMaterialService } from './study-material.service';
+import { WanikaniTokenService } from './wanikani-token.service';
 
 describe('StudyMaterialService', () => {
   let studyMaterialService: StudyMaterialService;
@@ -17,12 +16,12 @@ describe('StudyMaterialService', () => {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: WanikaniTokenInterceptorService,
-          multi: true
+          multi: true,
         },
-        StudyMaterialService
-      ]
+        StudyMaterialService,
+      ],
     });
-    const tokenService = TestBed.get(WanikaniTokenService);
+    const tokenService = TestBed.inject(WanikaniTokenService);
     tokenService.setApiToken('mock token');
 
     studyMaterialService = TestBed.inject(StudyMaterialService);

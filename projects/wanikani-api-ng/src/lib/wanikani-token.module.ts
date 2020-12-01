@@ -6,17 +6,15 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   providers: [
     WanikaniTokenService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: WanikaniTokenInterceptorService,
-      multi: true
+      multi: true,
     },
-    AuthGuard
-  ]
+    AuthGuard,
+  ],
 })
 export class WanikaniTokenModule {}

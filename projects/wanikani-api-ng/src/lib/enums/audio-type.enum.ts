@@ -1,4 +1,4 @@
-export enum AudioType{
-  MPEG = "audio/mpeg",
-  OGG  = "audio/ogg"
+export enum AudioType {
+  MPEG = 'audio/mpeg',
+  OGG = 'audio/ogg',
 }

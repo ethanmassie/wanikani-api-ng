@@ -8,5 +8,5 @@ export enum SrsStageType {
   GURU_II,
   MASTER,
   ENLIGHTENED,
-  BURNED
+  BURNED,
 }

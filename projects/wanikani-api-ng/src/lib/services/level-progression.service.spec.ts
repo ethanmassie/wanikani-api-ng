@@ -11,24 +11,22 @@ describe('LevelProgressionService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
+      imports: [HttpClientTestingModule],
       providers: [
         WanikaniTokenService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: WanikaniTokenInterceptorService,
-          multi: true
+          multi: true,
         },
-        LevelProgressionService
-      ]
+        LevelProgressionService,
+      ],
     });
-    
-    const tokenService = TestBed.get(WanikaniTokenService);
+
+    const tokenService = TestBed.inject(WanikaniTokenService);
     tokenService.setApiToken('mock token');
 
-    levelProgressionsService = TestBed.get(LevelProgressionService);
+    levelProgressionsService = TestBed.inject(LevelProgressionService);
   });
 
   it('should be created', () => {

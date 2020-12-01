@@ -2,7 +2,7 @@ import { Pages } from '../pages.model';
 import { Review } from './review.model';
 
 export interface ReviewCollection {
-  object: 'collection',
+  object: 'collection';
   url: string;
   pages: Pages;
   total_count: number;

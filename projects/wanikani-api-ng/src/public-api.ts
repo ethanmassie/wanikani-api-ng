@@ -104,4 +104,3 @@ export * from './lib/services/wanikani-token-interceptor.service';
 export * from './lib/services/wanikani-token.service';
 export * from './lib/wanikani-api-ng.module';
 export * from './lib/wanikani-token.module';
-

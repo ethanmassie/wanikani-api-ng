@@ -8,5 +8,5 @@ export enum SrsStageName {
   GURU_II = 'Guru II',
   MASTER = 'Master',
   ENLIGHTENED = 'Enlightened',
-  BURNED = 'Burned'
+  BURNED = 'Burned',
 }

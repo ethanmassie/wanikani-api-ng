@@ -9,29 +9,25 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 describe('AssignmentService', () => {
   let assignmentService: AssignmentService;
 
-  beforeEach(
-    () => {
-      TestBed.configureTestingModule({
-        imports: [
-          HttpClientTestingModule,
-        ],
-        providers: [
-          WanikaniTokenService,
-          {
-            provide: HTTP_INTERCEPTORS,
-            useClass: WanikaniTokenInterceptorService,
-            multi: true
-          },
-          AssignmentService
-        ]
-      });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        WanikaniTokenService,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: WanikaniTokenInterceptorService,
+          multi: true,
+        },
+        AssignmentService,
+      ],
+    });
 
-      const tokenService = TestBed.get(WanikaniTokenService);
-      tokenService.setApiToken('mock token');
+    const tokenService = TestBed.inject(WanikaniTokenService);
+    tokenService.setApiToken('mock token');
 
-      assignmentService = TestBed.get(AssignmentService);
-    }
-  );
+    assignmentService = TestBed.inject(AssignmentService);
+  });
 
   it('should be created', () => {
     expect(assignmentService).toBeTruthy();

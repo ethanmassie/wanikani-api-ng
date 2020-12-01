@@ -15,10 +15,7 @@ import { WaniSubjectService } from './services/wani-subject.service';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
+  imports: [CommonModule, HttpClientModule],
   providers: [
     AssignmentService,
     LevelProgressionService,
@@ -30,7 +27,7 @@ import { WaniSubjectService } from './services/wani-subject.service';
     SummaryService,
     UserService,
     VoiceActorService,
-    WaniSubjectService
-  ]
+    WaniSubjectService,
+  ],
 })
-export class WanikaniApiNgModule { }
+export class WanikaniApiNgModule {}

@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { getHeaders } from '../constants';
-import { BehaviorCache } from '../models/behavior-cache';
 import { AllReviewStatisticsParams } from '../models/review-statistic/all-review-statistics-params.model';
 import { ReviewStatisticCollection } from '../models/review-statistic/review-statistic-collection.model';
 import { ReviewStatistic } from '../models/review-statistic/review-statistic.model';
@@ -12,28 +10,22 @@ import { appendQueryToUrl } from '../util/query-param';
 const baseUrl = 'https://api.wanikani.com/v2/review_statistics';
 
 @Injectable()
-export class ReviewStatisticService { 
-
-  private cache = new BehaviorCache();
-
-  constructor(private http: HttpClient) { }
+export class ReviewStatisticService {
+  constructor(private http: HttpClient) {}
 
   /**
    * Get a collection of all review statistics
-   * @param page Optional next page from review statistic response
+   * @param pageUrl Optional page url from review statistic response
    * @param params Optional query params
    */
-  public getAllReviewStatistics(params?: AllReviewStatisticsParams, page?: string): Observable<ReviewStatisticCollection> {
-    const url = !!page ? page : appendQueryToUrl(params, baseUrl);
-    const key = `ALL_REVIEW_STATISTICS:${url}`;
-
-    if(!this.cache.isDefined(key)) {
-      this.http.get<ReviewStatisticCollection>(`${url}`, { headers: getHeaders }).pipe(
-        take(1)
-      ).subscribe(stats => this.cache.set(key, stats));
-    }
-
-    return this.cache.get(key);
+  public getAllReviewStatistics(
+    params?: AllReviewStatisticsParams,
+    pageUrl?: string
+  ): Observable<ReviewStatisticCollection> {
+    const url = !!pageUrl ? pageUrl : appendQueryToUrl(params, baseUrl);
+    return this.http.get<ReviewStatisticCollection>(`${url}`, {
+      headers: getHeaders,
+    });
   }
 
   /**
@@ -41,21 +33,8 @@ export class ReviewStatisticService {
    * @param id Id of review statistic
    */
   public getReviewStatistic(id: number): Observable<ReviewStatistic> {
-    const key = `REVIEW_STATISTIC:${id}`;
-
-    if(!this.cache.isDefined(key)) {
-      this.http.get<ReviewStatistic>(`${baseUrl}/${id}`, { headers: getHeaders }).pipe(
-        take(1)
-      ).subscribe(stat => this.cache.set(key, stat));
-    }
-
-    return this.cache.get(key);
-  }
-
-  /**
-   * Clear all cached observables
-   */
-  public clearCache() {
-    this.cache.clear();
+    return this.http.get<ReviewStatistic>(`${baseUrl}/${id}`, {
+      headers: getHeaders,
+    });
   }
 }

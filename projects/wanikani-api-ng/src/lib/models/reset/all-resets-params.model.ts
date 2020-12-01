@@ -1,4 +1,4 @@
 export interface AllResetsParams {
-  ids?:           number[];
+  ids?: number[];
   updated_after?: Date;
 }

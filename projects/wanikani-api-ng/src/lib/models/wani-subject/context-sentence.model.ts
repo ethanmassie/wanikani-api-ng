@@ -1,4 +1,4 @@
-export interface ContextSentence{
+export interface ContextSentence {
   en: string;
   ja: string;
 }

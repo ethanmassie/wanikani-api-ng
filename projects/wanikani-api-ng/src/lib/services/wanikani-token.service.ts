@@ -1,25 +1,24 @@
-import { Injectable } from '@angular/core';
 import { HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 // Key to the api token in local storage
 const tokenKey = 'burnt_tofu_token';
 
 @Injectable()
-export class WanikaniTokenService { 
-
+export class WanikaniTokenService {
   isAuthenticated: BehaviorSubject<boolean>;
 
   badTokenUsed = new Subject<void>();
 
-  constructor() { 
+  constructor() {
     this.isAuthenticated = new BehaviorSubject(this.hasToken());
   }
 
   /**
    * Helper method which retrieves the token from local storage
    */
-  private getToken(): string  {
+  private getToken(): string {
     return localStorage.getItem(tokenKey);
   }
 
@@ -28,16 +27,19 @@ export class WanikaniTokenService {
    * @param req HttpRequest to add auth header to
    */
   public addAuthHeader(req: HttpRequest<any>): HttpRequest<any> {
-    if(this.hasToken()) {
-      let authHeaders = req.headers.append('Authorization', `Bearer ${this.getToken()}`);
-      return req.clone({headers: authHeaders});
+    if (this.hasToken()) {
+      const authHeaders = req.headers.append(
+        'Authorization',
+        `Bearer ${this.getToken()}`
+      );
+      return req.clone({ headers: authHeaders });
     }
     return req;
   }
 
   /**
    * Store the api token in local storage and set the user to authenticated
-   * @param apiToken 
+   * @param apiToken wanikani api token
    */
   public setApiToken(apiToken: string) {
     localStorage.setItem(tokenKey, apiToken);

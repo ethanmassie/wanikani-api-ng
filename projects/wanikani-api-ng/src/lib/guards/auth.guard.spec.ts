@@ -8,10 +8,7 @@ describe('AuthGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        AuthGuard,
-        WanikaniTokenService
-      ]
+      providers: [AuthGuard, WanikaniTokenService],
     });
     guard = TestBed.inject(AuthGuard);
   });
